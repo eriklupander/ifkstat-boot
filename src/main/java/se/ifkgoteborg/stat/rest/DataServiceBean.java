@@ -23,7 +23,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 @RestController
-@RequestMapping("/view")
+@RequestMapping("/rest/view")
 public class DataServiceBean {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -665,16 +665,16 @@ public class DataServiceBean {
         return em.createQuery("select g from Game g ORDER BY g.dateOfGame DESC").getResultList();
     }
 
-    @RequestMapping(value = "/players/summary", method=RequestMethod.GET, produces = JSON)
+    @RequestMapping(value = "/players/summaries", method=RequestMethod.GET, produces = JSON)
     public Collection<PlayerSummaryDTO> getPlayerSummaries() {
         String sql = "select p.id, p.name, COUNT(pg.id) as games, MIN(g.dateOfGame) as firstGame, MAX(g.dateOfGame) as lastGame FROM player p " +
                 "INNER JOIN player_game pg ON pg.player_id=p.id " +
                 "INNER JOIN game g ON pg.game_id=g.id " +
-                "GROUP BY (p.id, p.name) ORDER BY p.name";
+                "GROUP BY p.id, p.name ORDER BY p.name";
 
         Query q1 = em.createNativeQuery(sql);
         List<Object[]> res1 = q1.getResultList();
-        Map<Long, PlayerSummaryDTO> map = new HashMap<Long, PlayerSummaryDTO>();
+        Map<Long, PlayerSummaryDTO> map = new LinkedHashMap<Long, PlayerSummaryDTO>();
         for(Object[] row : res1) {
             PlayerSummaryDTO dto = new PlayerSummaryDTO();
             dto.setId( ((Number) row[0]).longValue());
@@ -704,7 +704,7 @@ public class DataServiceBean {
                 map.get(id).setGoals(goals);
             } else {
                 // WARN!
-                System.out.println("Could not find playerId in map: " + id);
+                //System.out.println("Could not find playerId in map: " + id);
             }
 
         }

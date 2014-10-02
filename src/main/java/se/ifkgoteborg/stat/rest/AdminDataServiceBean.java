@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/rest/admin")
 public class AdminDataServiceBean {
 	
 	@PersistenceContext

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="phonecatApp">
+
+<head>
+    <meta charset="UTF-8">
+
+     <!--
+   <script data-require="angular.js@*" data-semver="1.2.5" src="http://code.angularjs.org/1.2.5/angular.js"></script>
+   <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+   <script data-require="bootstrap@*" data-semver="3.0.2" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+   <script data-require="angular.js@*" data-semver="1.2.5" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.js"></script>
+
+   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css"/>
+   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css"/>
+   <link rel="stylesheet" href="style.css" />
+   <script src="js/app.js"></script>
+   <script src="js/controllers.js"></script>
+   -->
+    <link data-require="bootstrap-css@3.0.2" data-semver="3.0.3" rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+
+</head>
+<body>
+IFKSTAT
+
+    <div ng-view></div>
+</body>
+
+</html>
+
+
+<!--
+
+
+
+<h2>Spelare genom tiderna</h2>
+
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th ng-repeat="c in ordered_columns">{{ c.title }}
+        </th>
+    </tr>
+    <tbody>
+
+<tr ng-repeat="d in pagedItems[currentPage]">
+
+    <td><a href="#player={{d.id}}">{{d['name']}}</a></td>
+    <td>{{d['games']}}</td>
+    <td>{{d['goals']}}</td>
+    <td>{{d['firstGame'] | date:'yyyy-MM-dd'}}</td>
+    <td>{{d['lastGame'] | date:'yyyy-MM-dd'}}</td>
+</tr>
+</tbody>
+<tfoot>
+<td colspan="6">
+    <div class="pagination pull-right">
+        <ul>
+            <li ng-class="{disabled: currentPage == 0}">
+                <a href ng-click="prevPage()">« Prev</a>
+            </li>
+
+            <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) "
+                ng-class="{active: n == currentPage}"
+                ng-click="setPage()">
+                <a href ng-bind="n + 1">1</a>
+            </li>
+
+            <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
+                <a href ng-click="nextPage()">Next »</a>
+            </li>
+        </ul>
+    </div>
+</td>
+</tfoot>
+</table>
+</body>
+
+</html>
+
+
+        -->

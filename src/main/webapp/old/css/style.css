@@ -1,0 +1,185 @@
+body {
+    width: 800px;
+    margin: 20px;
+    font-family: 'trebuchet MS', 'Lucida sans', Arial;
+    font-size: 14px;
+    color: #444;
+}
+
+a, u {
+    text-decoration: none;
+}
+
+table {
+    *border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    width: 100%;    
+}
+
+.menubar {
+	
+
+margin:10px;
+
+background-image: linear-gradient(right , rgb(255,255,255) 49%, rgb(222,222,222) 82%);
+background-image: -o-linear-gradient(right , rgb(255,255,255) 49%, rgb(222,222,222) 82%);
+background-image: -moz-linear-gradient(right , rgb(255,255,255) 49%, rgb(222,222,222) 82%);
+background-image: -webkit-linear-gradient(right , rgb(255,255,255) 49%, rgb(222,222,222) 82%);
+background-image: -ms-linear-gradient(right , rgb(255,255,255) 49%, rgb(222,222,222) 82%);
+
+background-image: -webkit-gradient(
+	linear,
+	right top,
+	left top,
+	color-stop(0.49, rgb(255,255,255)),
+	color-stop(0.82, rgb(222,222,222))
+);
+
+
+}
+
+.btn {
+	padding:4px 18px;
+	position:relative;
+	background:#e0e0e0 url(../images/bg_btn.gif) repeat-x;
+	text-decoration:none;
+	text-shadow: 1px 1px #fff;
+	font-weight:bold;
+	display:inline-block;
+	color:#666 !important;
+	border:1px #dbdbdb solid;
+	font-size:12px;
+    line-height:14px;
+	margin:2px;
+}
+
+.btn:hover {
+    cursor:pointer;
+    border:1px #a1a1a1 solid;
+    text-decoration: none;
+}
+
+.btn:active {
+	cursor:pointer;
+	background:#fff url(/images/bg_btn.gif) bottom left repeat-x;
+    border:1px #a1a1a1 solid;
+}
+
+#heading {
+	padding: 2px 4px;
+	font-size: 0.6em;
+	width: 100%;
+}
+.menuanchor {
+	margin: 5px;
+}
+
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;         
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;     
+}    
+    
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;    
+}
+
+.bordered th {
+    background-color: #dce9f9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child {
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+.heading {
+	font-weight:bold;
+	font-family: verdana;
+	font-size: 16px;
+}
+.heading_cell {
+	font-weight:bold;
+	font-family: verdana;
+	font-size: 12px;
+}
+
+.lineup {
+	background: url("../images/pitch.png") no-repeat scroll 0 0 transparent;
+	width:640px;
+	height:400px;
+	position:relative;
+}
+.lineup_player {
+	color:white;
+	font-size:12pt;
+	position:absolute;
+	width:80px;
+	text-align:center;
+}
+.lineup_player a {
+	color:white;
+	font-size:12pt;	
+}
+.player_icon {
+	background: url("../images/playerdot.png") no-repeat scroll 0 0 transparent;
+	width:80px;
+	height:32px;
+	text-align:center;
+	background-position:center;
+}

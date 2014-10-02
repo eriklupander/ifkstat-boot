@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>IFKSTAT web</title>
+	<link href="css/jquery-ui.css" type="text/css" rel="stylesheet">
+	<link href="css/style.css" type="text/css" rel="stylesheet">
+	<link href="css/demo_table.css" type="text/css" rel="stylesheet">
+	<link href="css/header.css" type="text/css" rel="stylesheet">
+	
+	<script type="text/javascript" src="script/jquery/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="script/jquery/jquery.ui.min.js"></script>
+	<script type="text/javascript" src="script/jquery/jquery.dataTables.js"></script>
+	
+	<script type="text/javascript" src="/ifkstat-server/rest-js"></script>
+	<script type="text/javascript" src="script/script.js"></script><script type="text/javascript" src="script/head.js"></script>
+	
+</head>
+<body>
+	<div id="header"></div>
+	<div id="content">
+		<div id="tabs">
+		    <ul>
+		        <li><a href="#tabs-1">Spelardata</a></li>
+		        <li><a href="#tabs-2">Statistik</a></li>
+		        <li><a href="#tabs-3">Positioner</a></li>
+		        <li><a href="#tabs-4">Resultat</a></li>
+		        <li><a href="#tabs-6">Utökade resultat</a></li>
+		        <li><a href="#tabs-5">Säsonger</a></li>
+		    </ul>
+		    <div id="tabs-1">
+		    	<div style="width:500px;" id="playerdetails" class="infopanel"></div>  
+		    </div>
+		    <div id="tabs-2">
+		        <div style="width:500px;" id="playerstats" class="infopanel"></div>
+		     </div>
+		     <div id="tabs-3">
+		        <div style="width:500px;" id="playerpositions" class="infopanel"></div>
+		     </div>
+		     <div id="tabs-4">
+		        <div style="width:500px;" id="playerresults" class="infopanel"></div>
+		     </div>
+		     <div id="tabs-5">
+		        <div style="width:500px;" id="playerseasons" class="infopanel"></div>
+		     </div>
+		     <div id="tabs-6">
+                <div style="width:500px;" id="full_playerresults" class="infopanel"></div>
+             </div>
+		</div>
+	</div>
+	<div id="footer"></div>
+
+	<script>
+		$(document).ready(function() {
+			header();
+			$('#tabs').tabs();
+			showPlayerDetails($.urlParam('id')); 
+		} );
+	</script>
+</body>
+</html>

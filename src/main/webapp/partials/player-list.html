@@ -1,0 +1,42 @@
+<h2>Spelare genom tiderna</h2>
+
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th ng-repeat="c in ordered_columns">{{ c.title }}
+        </th>
+    </tr>
+    <tbody>
+
+    <tr ng-repeat="d in pagedItems[currentPage]">
+
+        <td><a href="#/players/{{d.id}}">{{d['name']}}</a></td>
+        <td>{{d['games']}}</td>
+        <td>{{d['goals']}}</td>
+        <td>{{d['firstGame'] | date:'yyyy-MM-dd'}}</td>
+        <td>{{d['lastGame'] | date:'yyyy-MM-dd'}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <td colspan="6">
+        <div class="pagination pull-right">
+            <ul>
+                <li ng-class="{disabled: currentPage == 0}">
+                    <a href ng-click="prevPage()">« Prev</a>
+                </li>
+
+                <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) "
+                    ng-class="{active: n == currentPage}"
+                    ng-click="setPage()">
+                    <a href ng-bind="n + 1">1</a>
+                </li>
+
+                <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
+                    <a href ng-click="nextPage()">Next »</a>
+                </li>
+            </ul>
+        </div>
+    </td>
+    </tfoot>
+</table>

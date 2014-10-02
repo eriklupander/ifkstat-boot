@@ -89,11 +89,11 @@ public class Application {
             http.httpBasic()
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/admin/**")
+                    .antMatchers("/rest/admin/**")
                     .hasRole("ADMIN")
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/superadmin/**")
+                    .antMatchers("/rest/superadmin/**")
                     .hasRole("SUPERADMIN"); // .anyRequest().authenticated()
         }
         @Override

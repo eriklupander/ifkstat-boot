@@ -20,7 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @RestController
-@RequestMapping("/superadmin")
+@RequestMapping("/rest/superadmin")
 public class SuperAdminDataServiceBean {
 	
 	@PersistenceContext
