@@ -2,6 +2,7 @@
 
 var phonecatApp = angular.module('phonecatApp', [
     'ngRoute',
+	'ui.bootstrap',
     'phonecatControllers'
 ]);
 phonecatApp.config(['$routeProvider',

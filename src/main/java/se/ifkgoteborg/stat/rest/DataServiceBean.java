@@ -285,7 +285,7 @@ public class DataServiceBean {
                 "					inner join formation f ON f.id=fp.formation_id " +
                 "					inner join position pos ON pos.id=fp.position_id " +
                 "					WHERE p.id= :id " +
-                "					GROUP BY (p.id, pos.name, f.id) " +
+                "					GROUP BY p.id, pos.name, f.id " +
                 "			 	) j1  " +
                 "			 	ON j1.playerId=p.id AND j1.posname = pos.name AND j1.fid=f.id " +
                 " " +
@@ -298,7 +298,7 @@ public class DataServiceBean {
                 "					inner join game g ON g.id=pg.game_id " +
                 "					left outer join game_event ge ON ge.player_id=p.id AND ge.game_id=g.id " +
                 "					WHERE p.id=:id  AND ge.eventtype='GOAL' " +
-                "					GROUP BY (p.id, pos.name, f.id) " +
+                "					GROUP BY p.id, pos.name, f.id " +
                 "			 	) j2  " +
                 "			 	ON j2.playerId=p.id AND j2.posname = pos.name AND j2.fid=f.id " +
                 "WHERE p.id= :id "; // + 
@@ -377,7 +377,7 @@ public class DataServiceBean {
             "     AND pg.participationtype IN (" +
             "         'STARTER','SUBSTITUTE_OUT'" +
             "     )" +
-            "     GROUP BY ('STARTER',ts.seasonName, t.name)" +
+            "     GROUP BY 'STARTER',ts.seasonName, t.name " +
             " UNION" +
             " SELECT" +
             "     'SUBSTITUTE' as participationType," +
@@ -433,7 +433,7 @@ public class DataServiceBean {
             "     AND pg.participationtype IN (" +
             "         'SUBSTITUTE_IN'" +
             "     )" +
-            "     GROUP BY ('SUBSTITUTE',ts.seasonName, t.name)" +
+            "     GROUP BY 'SUBSTITUTE',ts.seasonName, t.name " +
             " UNION" +
             " SELECT" +
             "     'NO_PART' c1," +
@@ -505,7 +505,7 @@ public class DataServiceBean {
             "         WHERE" +
             "             pg.player_id=:playerId" +
             "     )" +
-            "     GROUP BY ('NO_PART',ts.seasonName, t.name)";
+            "     GROUP BY 'NO_PART',ts.seasonName, t.name";
 
 
     @RequestMapping(value = "/players/{id}/resultstats/full", method=RequestMethod.GET, produces = JSON)

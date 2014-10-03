@@ -1,11 +1,178 @@
-TBD: detail view for player with ID <span>{{id}}</span>
-<ul class="nav nav-tabs">
-    <li class="active">
-        <a href="#/players/{{d.id}}">Spelardata</a>
-    </li>
-    <li><a href="#/players/{{d.id}}/stats">Statistik</a></li>
-    <li><a href="#">Positioner</a></li>
-    <li><a href="#">Resultat</a></li>
-    <li><a href="#">Utökade resultat</a></li>
-    <li><a href="#">Säsonger</a></li>
-</ul>
+TBD: detail view for player with the ID <span>{{id}}</span>
+
+<tabset>
+    <tab heading="Spelardata">
+		<table class="bordered"> 
+				<thead><tr><th colspan="2"> {{p.name}}</th></tr></thead>
+				<tbody>
+					<tr><td>Namn</td><td>{{p.name}}</td></tr> 
+					<tr><td>Född</td><td>{{p.dateOfBirth}}</td></tr> 
+					<!--
+					<tr><td>Moderklubb</td><td><input type="text" id="motherClub"/></td></tr> 
+					<tr><td>Övriga klubbar</td><td><input type="text" id="playedForClubs"/></td></tr> 
+					<tr><td>Längd</td><td><input type="text" id="length"/></td></tr>
+					<tr><td>Vikt</td><td><input type="text" id="weight"/></td></tr>
+					<tr><td>Nationalitet</td><td><select id="nationality"/></td></tr>
+					<tr><td>Position</td><td><select id="positionType"/></td></tr>
+					<tr><td>Biografi</td><td><textarea id="biography"></textarea></td></tr>
+					-->
+				</tbody>
+		</table>
+	</tab>
+	<!--
+	{ "mData": "tournamentName", "sTitle": "Turnering" },
+			    { "mData": "totalGames", "sTitle": "Matcher" },
+			    { "mData": "goals", "sTitle": "Mål" },
+			    { "mData": "gamesAsSubstituteIn", "sTitle": "Inbytt" },
+			    { "mData": "gamesAsSubstituteOut", "sTitle": "Utbytt" },
+			    { "mData": "goalsAsSubstituteIn", "sTitle": "Mål som inhoppare" },
+			    { "mData": "goalsAsSubstituteOut", "sTitle": "Mål, sedan utbytt" }
+				-->
+	<tab heading="Statistik">
+		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_stats">
+			<thead>
+				<tr>
+					<th>Turnering</th>
+					<th>Matcher</th>
+					<th>Mål</th>
+					<th>Inbytt</th>
+					<th>Utbytt</th>
+					<th>Mål som inhoppare</th>
+					<th>Mål, sedan utbytt</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in ps">
+					<td>{{i.tournamentName}}</td>
+					<td>{{i.goals}}</td>
+					<td>{{i.gamesAsSubstituteIn}}</td>
+					<td>{{i.gamesAsSubstituteOut}}</td>
+					<td>{{i.goalsAsSubstituteIn}}</td>
+					<td>{{i.goalsAsSubstituteOut}}</td>
+				</tr>
+			</tbody>
+		</table>	
+	</tab>
+	
+	<!--
+	{ "mData": "positionName", "sTitle": "Position" },
+		    { "mData": "formationName", "sTitle": "Formation" },
+		    { "mData": "games", "sTitle": "Matcher" },
+		    { "mData": "goals", "sTitle": "Mål" }
+			-->
+	<tab heading="Positioner">
+		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_positions">
+			<thead>
+				<tr>
+					<th>Position</th>
+					<th>Formation</th>
+					<th>Matcher</th>
+					<th>Mål</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in pps">
+					<td>{{i.positionName}}</td>
+					<td>{{i.formationName}}</td>
+					<td>{{i.games}}</td>
+					<td>{{i.goals}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</tab>
+	
+	<!--  { "mData": "participationType", "sTitle": "Deltagande" },
+		    { "mData": "games", "sTitle": "Matcher" },
+		    { "mData": "wins", "sTitle": "Vinster" },
+		    { "mData": "draws", "sTitle": "Oavgjorda" },
+		    { "mData": "losses", "sTitle": "Förluster" },
+		    { "mData": "averagePoints", "sTitle": "Snittpoäng" } -->
+	<tab heading="Resultat">
+		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_results">
+			<thead>
+				<tr>
+					<th>Deltagande</th>
+					<th>Matcher</th>
+					<th>Vinster</th>
+					<th>Oavgjorda</th>
+					<th>Förluster</th>
+					<th>Snittpoäng</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in rs">
+					<td>{{i.participationType}}</td>
+					<td>{{i.games}}</td>
+					<td>{{i.wins}}</td>
+					<td>{{i.draws}}</td>
+					<td>{{i.losses}}</td>
+					<td>{{i.averagePoints}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</tab>
+	
+	
+	
+	<!--  { "mData": "participationType", "sTitle": "Deltagande" },
+			{ "mData": "tournament", "sTitle": "Turnering" },
+			{ "mData": "season", "sTitle": "Säsong" },
+		    { "mData": "games", "sTitle": "Matcher" },
+		    { "mData": "wins", "sTitle": "Vinster" },
+		    { "mData": "draws", "sTitle": "Oavgjorda" },
+		    { "mData": "losses", "sTitle": "Förluster" },
+		    { "mData": "averagePoints", "sTitle": "Snittpoäng" } -->
+	<tab heading="Utökade resultat">
+		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="full_player_results">
+			<thead>
+				<tr>
+					<th>Deltagande</th>
+					<th>Turnering</th>
+					<th>Matcher</th>
+					<th>Vinster</th>
+					<th>Oavgjorda</th>
+					<th>Förluster</th>
+					<th>Snittpoäng</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in rse">
+					<td>{{i.participationType}}</td>
+					<td>{{i.season}}</td>
+					<td>{{i.games}}</td>
+					<td>{{i.wins}}</td>
+					<td>{{i.draws}}</td>
+					<td>{{i.losses}}</td>
+					<td>{{i.averagePoints}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</tab>
+	
+	<!--  { "mData": "tournamentName", "sTitle": "Turnering" },
+		    { "mData": "seasonName", "sTitle": "Säsong" },
+		    { "mData": "gamesPlayed", "sTitle": "Spelade matcher" },
+		    { "mData": "totalGames", "sTitle": "Totalt antal matcher" } -->
+	<tab heading="Säsonger">
+		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_seasons">
+			<thead>
+				<tr>				
+					<th>Turnering</th>
+					<th>Säsong</th>
+					<th>Spelade matcher</th>
+					<th>Totalt antal matcher</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in ses">
+					<td>{{i.tournamentName}}</td>
+					<td>{{i.seasonName}}</td>
+					<td>{{i.gamesPlayed}}</td>
+					<td>{{i.totalGames}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</tab>    
+</tabset>
+
+

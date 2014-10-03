@@ -101,8 +101,67 @@ phonecatApp.controller('PhoneListCtrl', ['$scope', '$http', function($scope, $ht
 
 }]);
 
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams',
-    function($scope, $routeParams) {
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routeParams',
+    function($scope, $http, $routeParams) {
+		$scope.p = {};
+	
+		$scope.playerId = $routeParams.id;
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
+        success(function(data, status, headers, config) {
+            $scope.p = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        });
+		
+		
+		$scope.ps = {};
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/stats'}).
+        success(function(data, status, headers, config) {
+            $scope.ps = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        });
+		
+		$scope.pps = {};
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/positions'}).
+        success(function(data, status, headers, config) {
+            $scope.pps = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        });
+		
+		$scope.rs = {};
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/resultstats'}).
+        success(function(data, status, headers, config) {
+            $scope.rs = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        })
+		
+		$scope.rse = {};
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/resultstats/full'}).
+        success(function(data, status, headers, config) {
+            $scope.rse = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        })
+		
+		$scope.ses = {};
+		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/gamespertournaments'}).
+        success(function(data, status, headers, config) {
+            $scope.ses = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error:"  + data);
+        })
+		
+		
+		
 //        $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
 //            $scope.mainImageUrl = phone.images[0];
 //        });
