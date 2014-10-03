@@ -184,7 +184,7 @@ public class DataServiceBean {
                 .getResultList();
     }
 
-    @RequestMapping(value = "/games/{id}/participations", method=RequestMethod.GET, produces = JSON)
+    @RequestMapping(value = "/games/{id}/participants", method=RequestMethod.GET, produces = JSON)
     public List<GameParticipation> getGameParticipation(@PathVariable Long id) {
         return em.createQuery("select gp from GameParticipation gp WHERE gp.game.id = :id")
                 .setParameter("id", id)
@@ -722,7 +722,7 @@ public class DataServiceBean {
         return (Date) date;
     }
 
-    @RequestMapping(value = "/games/{date}", method=RequestMethod.GET, produces = JSON)
+    @RequestMapping(value = "/games/date/{date}", method=RequestMethod.GET, produces = JSON)
     public List<Game> getGamesOfDate(@PathVariable String date) {
         try {
             Date dateOfGame = sdf.parse(date);

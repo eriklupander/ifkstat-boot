@@ -1,8 +1,8 @@
-TBD: detail view for player with the ID <span>{{id}}</span>
-
+<h1>{{playerName}}</h1>
+        <hr/>
 <tabset>
     <tab heading="Spelardata">
-		<table class="bordered"> 
+		<table class="table table-striped"> 
 				<thead><tr><th colspan="2"> {{p.name}}</th></tr></thead>
 				<tbody>
 					<tr><td>Namn</td><td>{{p.name}}</td></tr> 
@@ -29,7 +29,7 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 			    { "mData": "goalsAsSubstituteOut", "sTitle": "Mål, sedan utbytt" }
 				-->
 	<tab heading="Statistik">
-		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_stats">
+		<table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" id="player_stats">
 			<thead>
 				<tr>
 					<th>Turnering</th>
@@ -44,6 +44,7 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 			<tbody>
 				<tr ng-repeat="i in ps">
 					<td>{{i.tournamentName}}</td>
+                    <td><a href="/#/players/{{playerId}}/tournaments/{{i.tournamentId}}/games">{{i.totalGames}}</a></td>
 					<td>{{i.goals}}</td>
 					<td>{{i.gamesAsSubstituteIn}}</td>
 					<td>{{i.gamesAsSubstituteOut}}</td>
@@ -61,7 +62,7 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 		    { "mData": "goals", "sTitle": "Mål" }
 			-->
 	<tab heading="Positioner">
-		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_positions">
+		<table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" id="player_positions">
 			<thead>
 				<tr>
 					<th>Position</th>
@@ -88,7 +89,7 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 		    { "mData": "losses", "sTitle": "Förluster" },
 		    { "mData": "averagePoints", "sTitle": "Snittpoäng" } -->
 	<tab heading="Resultat">
-		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_results">
+		<table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" id="player_results">
 			<thead>
 				<tr>
 					<th>Deltagande</th>
@@ -123,11 +124,12 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 		    { "mData": "losses", "sTitle": "Förluster" },
 		    { "mData": "averagePoints", "sTitle": "Snittpoäng" } -->
 	<tab heading="Utökade resultat">
-		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="full_player_results">
+		<table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" id="full_player_results">
 			<thead>
 				<tr>
 					<th>Deltagande</th>
 					<th>Turnering</th>
+                    <th>Säsong</th>
 					<th>Matcher</th>
 					<th>Vinster</th>
 					<th>Oavgjorda</th>
@@ -138,7 +140,8 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 			<tbody>
 				<tr ng-repeat="i in rse">
 					<td>{{i.participationType}}</td>
-					<td>{{i.season}}</td>
+					<td>{{i.tournament}}</td>
+                    <td>{{i.season}}</td>
 					<td>{{i.games}}</td>
 					<td>{{i.wins}}</td>
 					<td>{{i.draws}}</td>
@@ -154,7 +157,7 @@ TBD: detail view for player with the ID <span>{{id}}</span>
 		    { "mData": "gamesPlayed", "sTitle": "Spelade matcher" },
 		    { "mData": "totalGames", "sTitle": "Totalt antal matcher" } -->
 	<tab heading="Säsonger">
-		<table class="bordered" cellpadding="0" cellspacing="0" border="0" class="display" id="player_seasons">
+		<table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" id="player_seasons">
 			<thead>
 				<tr>				
 					<th>Turnering</th>

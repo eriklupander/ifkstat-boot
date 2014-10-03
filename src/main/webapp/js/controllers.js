@@ -101,6 +101,44 @@ phonecatApp.controller('PhoneListCtrl', ['$scope', '$http', function($scope, $ht
 
 }]);
 
+
+
+phonecatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams',
+    function($scope, $http, $routeParams) {
+        $scope.playerId = $routeParams.id;
+        $scope.tournamentId = $routeParams.tournamentId;
+        $http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games'}).
+            success(function(data, status, headers, config) {
+                $scope.gamesList = data;
+            })
+    }]);
+
+phonecatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams',
+    function($scope, $http, $routeParams) {
+        $scope.gameId = $routeParams.id;
+        $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId}).
+            success(function(data, status, headers, config) {
+                $scope.g = data;
+            })
+
+        $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId + '/participants'}).
+            success(function(data, status, headers, config) {
+                $scope.participants = [];
+                for(var i = 0; i < data.length; i++) {
+                    if(data[i].participationType == 'STARTER' || data[i].participationType == 'SUBSTITUTE_OUT' ) {
+                        var position = {
+                            'positionalCss' : lineup.getPositionOffset(data[i].formationPosition.position),
+                            'name': data[i].player.name,
+                            'playerId' : data[i].player.id
+                        }
+                        $scope.participants.push(position);
+                    }
+                }
+
+            })
+    }]);
+
+
 phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routeParams',
     function($scope, $http, $routeParams) {
 		$scope.p = {};
@@ -108,6 +146,7 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routePar
 		$scope.playerId = $routeParams.id;
 		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
         success(function(data, status, headers, config) {
+                $scope.playerName = data.name;
             $scope.p = data;
         }).
         error(function(data, status, headers, config) {
@@ -118,7 +157,7 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routePar
 		$scope.ps = {};
 		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/stats'}).
         success(function(data, status, headers, config) {
-            $scope.ps = data;
+            $scope.ps = data.averagesPerTournament;
         }).
         error(function(data, status, headers, config) {
             alert("Error:"  + data);
