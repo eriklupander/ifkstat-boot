@@ -136,6 +136,29 @@ phonecatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routePara
                 }
 
             })
+
+        $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId + '/events'}).
+            success(function(data, status, headers, config) {
+                $scope.events = [];
+                for(var i = 0; i < data.length; i++) {
+                    var eventName =  data[i].eventType == 'GOAL' ? 'Mål' : (data[i].eventType == 'SUBSTITUTION_IN' ? 'Inbytt' : 'Utbytt');
+                    var playerName = data[i].player.name;
+                    var gameMinute = data[i].gameMinute != null ?  data[i].gameMinute : '--';
+
+                    var row = {
+                        'eventName' : eventName,
+                        'playerName' : playerName,
+                        'gameMinute' : gameMinute
+                    }
+
+                    $scope.events.push(row);
+                }
+            })
+
+        $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId + '/notes'}).
+            success(function(data, status, headers, config) {
+                $scope.notes = data;
+            });
     }]);
 
 
