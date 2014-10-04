@@ -1,4 +1,3 @@
-<tab heading="Match">
 <h1>{{g.homeTeam.name}} - {{g.awayTeam.name}} {{g.homeGoals}}-{{g.awayGoals}}, {{g.dateOfGame}}</h1>
 <tabset>
     <tab heading="Matchinformation">
@@ -68,7 +67,7 @@
             </thead>
             <tr ng-repeat="e in events">
                 <td>{{e.eventName}}</td>
-                <td>{{e.playerName}}</td>
+                <td><a href="/#/players/{{e.playerId}}">{{e.playerName}}</a></td>
                 <td>{{e.gameMinute}}</td>
             </tr>
         </table>

@@ -111,6 +111,11 @@ phonecatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParam
             success(function(data, status, headers, config) {
                 $scope.gamesList = data;
             })
+
+        $http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
+            success(function(data, status, headers, config) {
+                $scope.playerName = data.name;
+            })
     }]);
 
 phonecatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams',
@@ -142,11 +147,13 @@ phonecatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routePara
                 $scope.events = [];
                 for(var i = 0; i < data.length; i++) {
                     var eventName =  data[i].eventType == 'GOAL' ? 'Mål' : (data[i].eventType == 'SUBSTITUTION_IN' ? 'Inbytt' : 'Utbytt');
+                    var playerId = data[i].player.id;
                     var playerName = data[i].player.name;
                     var gameMinute = data[i].gameMinute != null ?  data[i].gameMinute : '--';
 
                     var row = {
                         'eventName' : eventName,
+                        'playerId' :  playerId,
                         'playerName' : playerName,
                         'gameMinute' : gameMinute
                     }
