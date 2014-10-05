@@ -1,0 +1,91 @@
+<table ng-table="clubsList" template-header="sample_ng_header" template-pagination="custom/pager" class="table table-striped">
+
+    <tbody>
+    <tr ng-repeat="c in $data">
+        <td data-title="'Klubb'" sortable="clubName">{{c.clubName}}</td>
+        <td data-title="'M'" sortable="games">{{c.games}}</td>
+        <td data-title="'V'" sortable="wins">{{c.wins}}</td>
+        <td data-title="'O'" sortable="draws">{{c.draws}}</td>
+        <td data-title="'F'" sortable="losses">{{c.losses}}</td>
+        <td data-title="'Mål'">{{c.goalsScored + '-' + c.goalsConceded}}</td>
+        <td data-title="'M'" sortable="homeGames">{{c.homeGames}}</td>
+        <td data-title="'V'" sortable="homeWins">{{c.homeWins}}</td>
+        <td data-title="'O'" sortable="homeDraws">{{c.homeDraws}}</td>
+        <td data-title="'F'" sortable="homeLosses">{{c.homeLosses}}</td>
+        <td data-title="'Mål'">{{c.homeGoalsScored + '-' + c.homeGoalsConceded}}</td>
+        <td data-title="'M'" sortable="awayGames">{{c.awayGames}}</td>
+        <td data-title="'V'" sortable="awayWins">{{c.awayWins}}</td>
+        <td data-title="'O'" sortable="awayDraws">{{c.awayDraws}}</td>
+        <td data-title="'F'" sortable="awayLosses">{{c.awayLosses}}</td>
+        <td data-title="'Mål'">{{c.awayGoalsScored + '-' + c.awayGoalsConceded}}</td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+
+<script id="sample_ng_header" type="text/ng-template">
+    <tr>
+        <th></th>
+        <th class="left" colspan="5">Totalt</th>
+        <th class="left" colspan="5">Hemma</th>
+        <th class="left" colspan="5">Borta</th>
+    </tr>
+    <tr>
+        <th class="left">Klubb</th>
+        <th class="left">M</th>
+        <th class="left">V</th>
+        <th class="left">O</th>
+        <th class="left">F</th>
+        <th class="left">Mål</th>
+        <th class="left">M</th>
+        <th class="left">V</th>
+        <th class="left">O</th>
+        <th class="left">F</th>
+        <th class="left">Mål</th>
+        <th class="left">M</th>
+        <th class="left">V</th>
+        <th class="left">O</th>
+        <th class="left">F</th>
+        <th class="left">Mål</th>
+    </tr>
+</script>
+
+<!--
+'<tr><th></th><th colspan="5">Totalt</th><th colspan="5">Hemma</th><th colspan="5">Borta</th></tr>' +
+'<tr><th>Klubb</th><th>M</th><th>V</th><th>O</th><th>F</th><th>Mål</th><th>M</th><th>V</th><th>O</th><th>F</th><th>Mål</th><th>M</th><th>V</th><th>O</th><th>F</th><th>Mål</th></tr>' +
+
+
+        "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+    $('td:eq(0)', nRow).html( '<a href="gamesVsTeam.html?id=' + aData.clubId + '">' + aData.clubName + '</a>');
+    $('td:eq(5)', nRow).html( aData.goalsScored + '-' + aData.goalsConceded );
+    $('td:eq(10)', nRow).html( aData.homeGoalsScored + '-' + aData.homeGoalsConceded );
+    $('td:eq(15)', nRow).html( aData.awayGoalsScored + '-' + aData.awayGoalsConceded );
+},
+"bProcessing" : true,
+"aaData": clubs,
+"bPaginate": true,
+"bLengthChange": false,
+"bFilter": true,
+"bSort": true,
+"bInfo": false,
+"aoColumns": [
+              { "mData": "clubName"},
+              { "mData": "games"},
+              { "mData": "wins"},
+              { "mData": "draws"},
+              { "mData": "losses"},
+              { "mData": "games" },
+              { "mData": "homeGames"},
+              { "mData": "homeWins"},
+              { "mData": "homeDraws"},
+              { "mData": "homeLosses"},
+              { "mData": "games"},
+              { "mData": "awayGames"},
+              { "mData": "awayWins"},
+              { "mData": "awayDraws"},
+              { "mData": "awayLosses"},
+              { "mData": "games"}
+              ]
+                      -->

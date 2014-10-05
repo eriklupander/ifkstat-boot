@@ -3,7 +3,7 @@ package se.ifkgoteborg.stat.rest.model;
 public class PlayedWithPlayerDTO {
 	private Long id;
 	private String name;
-	private Integer gamesWithPlayer;
+	private Number gamesWithPlayer;
 	
 	public Long getId() {
 		return id;
@@ -17,10 +17,10 @@ public class PlayedWithPlayerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getGamesWithPlayer() {
+	public Number getGamesWithPlayer() {
 		return gamesWithPlayer;
 	}
-	public void setGamesWithPlayer(Integer gamesWithPlayer) {
+	public void setGamesWithPlayer(Number gamesWithPlayer) {
 		this.gamesWithPlayer = gamesWithPlayer;
 	}
 	

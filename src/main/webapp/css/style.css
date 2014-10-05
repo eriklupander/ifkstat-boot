@@ -25,6 +25,10 @@
     background-position:center;
 }
 
+.left {
+    text-align: left !important;
+}
+
 .ng-table th.text-left {
-    text-align: left;
+    text-align: left !important;
 }

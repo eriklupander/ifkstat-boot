@@ -4,7 +4,7 @@ var ifkstatControllers = angular.module('ifkstatControllers', []);
 
 //var phonecatApp = angular.module('phonecatApp', []);
 
-phonecatApp.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'ngTableParams', function($scope, $http, $filter, ngTableParams) {
+ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'ngTableParams', function($scope, $http, $filter, ngTableParams) {
 
     $http({method: 'GET', url: '/rest/view/players/summaries'}).
         success(function(data, status, headers, config) {
@@ -32,6 +32,32 @@ phonecatApp.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'ngTableP
 
 }]);
 
+
+ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
+    function($scope, $http, $routeParams, $filter, ngTableParams) {
+
+        $http({method: 'GET', url: '/rest/view/clubs/stats'}).
+            success(function(data, status, headers, config) {
+                $scope.clubsList = new ngTableParams({
+                    page: 1,
+                    count: 25,
+                    filter: {
+                        name: ''
+                    }
+                }, {
+                    total: data.length, // length of data
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                        params.total(data.length);
+                        $defer.resolve(sliced);
+                    }
+                });
+            });
+    }]
+);
 
 
 ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
@@ -65,11 +91,13 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
                     }
                 });
             })
-
-        $http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
-            success(function(data, status, headers, config) {
-                $scope.playerName = data.name;
-            })
+        if($scope.playerId) {
+            $http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
+                success(function(data, status, headers, config) {
+                    $scope.playerName = data.name;
+                })
+        }
+        updateNavBarByElementId('nav-games');
     }]);
 
 ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams',
@@ -261,12 +289,5 @@ ifkstatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routePara
         });
 
 
-
-
-//        $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-//            $scope.mainImageUrl = phone.images[0];
-//        });
-//        $scope.setImage = function(imageUrl) {
-//            $scope.mainImageUrl = imageUrl;
-//        }
+        updateNavBarByElementId('nav-players');
     }]);

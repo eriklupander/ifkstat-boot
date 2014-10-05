@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css"/>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/ng-table.css"/>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
@@ -39,9 +40,17 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <a class="navbar-brand" href="/#/players">Spelare</a>
+        <ul id="nav-ul" class="nav navbar-nav">
+            <li id="nav-players" onclick="updateNavBar(this);"><a class="navbar-brand active" href="/#/players">Spelare</a></li>
+            <li id="nav-games" onclick="updateNavBar(this);"> <a class="navbar-brand" href="/#/games">Matcher</a></li>
+            <li id="nav-clubs" onclick="updateNavBar(this);">  <a class="navbar-brand" href="/#/clubs/stats">Klubbar</a></li>
+        </ul>
+
+            <!--
+        <a class="navbar-brand active" href="/#/players">Spelare</a>
         <a class="navbar-brand" href="/#/games">Matcher</a>
         <a class="navbar-brand" href="/#/clubs">Klubbar</a>
+        -->
     </div>
 </nav>
     <div class="container-fluid" ng-view></div>
@@ -67,4 +76,15 @@
             </div>
         </li>
     </ul>
+</script>
+
+<script>
+    var updateNavBar = function(elem) {
+        $('#nav-ul li').removeClass('active');
+        $(elem).addClass('active');
+    }
+    var updateNavBarByElementId = function(elemId) {
+        $('#nav-ul li').removeClass('active');
+        $('#'+elemId).addClass('active');
+    }
 </script>

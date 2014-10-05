@@ -8,7 +8,7 @@ public class PlayerStatDTO {
 	private List<GamePositionStatDTO> gamesPerPosition = new ArrayList<GamePositionStatDTO>();
 	private List<PlayedWithPlayerDTO> playedWithPlayer = new ArrayList<PlayedWithPlayerDTO>();
 	private List<AveragesPerGameAndTournamentDTO> averagesPerTournament = new ArrayList<AveragesPerGameAndTournamentDTO>();
-	
+
 	public List<GoalsPerTournamentDTO> getGoalsPerTournament() {
 		return goalsPerTournament;
 	}
@@ -34,4 +34,17 @@ public class PlayerStatDTO {
 			List<AveragesPerGameAndTournamentDTO> averagesPerTournament) {
 		this.averagesPerTournament = averagesPerTournament;
 	}
+
+    public PlayerTotalsDTO getTotals() {
+        PlayerTotalsDTO dto = new PlayerTotalsDTO();
+        for(AveragesPerGameAndTournamentDTO avg : getAveragesPerTournament()) {
+            dto.setGames(dto.getGames() + avg.getTotalGames());
+            dto.setGoals(dto.getGoals() + avg.getGoals());
+            dto.setSubstituteIn(dto.getSubstituteIn() + avg.getGamesAsSubstituteIn());
+            dto.setSubstituteOut(dto.getSubstituteOut() + avg.getGamesAsSubstituteOut());
+            dto.setGoalsAsSubstituteIn(dto.getGoalsAsSubstituteIn() + avg.getGoalsAsSubstituteIn());
+            dto.setGoalsAsSubstituteOut(dto.getGoalsAsSubstituteOut() + avg.getGoalsAsSubstituteOut());
+        }
+        return dto;
+    }
 }

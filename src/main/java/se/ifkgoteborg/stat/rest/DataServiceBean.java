@@ -212,6 +212,29 @@ public class DataServiceBean {
                 .getResultList();
     }
 
+    @RequestMapping(value = "/players/{id}/playedwith", method=RequestMethod.GET, produces = JSON)
+    public List<PlayedWithPlayerDTO> getPlayersPlayerPlayedWith(@PathVariable Long id) {
+        List<PlayedWithPlayerDTO> list = new ArrayList<PlayedWithPlayerDTO>();
+        Query q = em.createNativeQuery("SELECT distinct(p1.name) as name, COUNT(pg1.game_id) as cnt, MIN(g1.dateOfGame) as firstGame, MAX(g1.dateOfGame) as lastGame " +
+                "FROM PLAYER_GAME pg1 " +
+                "INNER JOIN PLAYER p1 ON p1.id=pg1.player_id " +
+                "INNER JOIN GAME g1 ON g1.id=pg1.game_id " +
+                "WHERE p1.id <> :id AND pg1.game_id IN " +
+                "(SELECT pg.game_id FROM GAME g " +
+                "INNER JOIN PLAYER_GAME pg ON pg.game_id=g.id " +
+                "WHERE pg.player_id = :id) " +
+                "GROUP BY name ORDER BY cnt DESC")
+                .setParameter("id", id);
+        List<Object[]> res = q.getResultList();
+        for(Object[] row : res) {
+            PlayedWithPlayerDTO dto = new PlayedWithPlayerDTO();
+            dto.setName((String) row[0]);
+            dto.setGamesWithPlayer((Number) row[1]);
+            list.add(dto);
+        }
+        return list;
+    }
+
     @RequestMapping(value = "/players/{id}/stats", method=RequestMethod.GET, produces = JSON)
     public PlayerStatDTO getPlayerStats(@PathVariable Long id) {
         PlayerStatDTO dto = new PlayerStatDTO();

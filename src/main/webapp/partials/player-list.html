@@ -5,11 +5,11 @@
 
     <tbody>
         <tr ng-repeat="d in $data">
-            <td data-title="'Namn'" sortable="name"><a href="#/players/{{d.id}}">{{d.name}}</a></td>
-            <td data-title="'Matcher'" sortable="games">{{d.games}}</td>
-            <td data-title="'Mål'" sortable="goals">{{d.goals}}</td>
-            <td data-title="'Första match'" sortable="firstGame">{{d.firstGame | date:'yyyy-MM-dd'}}</td>
-            <td data-title="'Sista match'" sortable="lastGame">{{d.lastGame | date:'yyyy-MM-dd'}}</td>
+            <td data-title="'Namn'" class="left" sortable="name"><a href="#/players/{{d.id}}">{{d.name}}</a></td>
+            <td data-title="'Matcher'" class="left" sortable="games">{{d.games}}</td>
+            <td data-title="'Mål'" class="left" sortable="goals">{{d.goals}}</td>
+            <td data-title="'Första match'" class="left"  sortable="firstGame">{{d.firstGame | date:'yyyy-MM-dd'}}</td>
+            <td data-title="'Sista match'" class="left" sortable="lastGame">{{d.lastGame | date:'yyyy-MM-dd'}}</td>
         </tr>
     </tbody>
 </table>
