@@ -24,3 +24,7 @@
     text-align:center;
     background-position:center;
 }
+
+.ng-table th.text-left {
+    text-align: left;
+}
