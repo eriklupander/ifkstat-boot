@@ -33,6 +33,10 @@ phonecatApp.config(['$routeProvider',
                 templateUrl: 'partials/clubs-list.html',
                 controller: 'ClubsListCtrl'
             }).
+            when('/clubs/:clubId/games', {
+                templateUrl: 'partials/games-list.html',
+                controller: 'GamesListCtrl'
+            }).
             otherwise({
                 redirectTo: '/players'
             });

@@ -59,17 +59,22 @@
         </div>
     </tab>
     <tab heading="Händelser">
-        <table id="gameevents_table" class="table table-striped">
-            <thead>
-               <th>Händelse</th>
-               <th>Spelare</th>
-               <th>Matchminut</th>
-            </thead>
-            <tr ng-repeat="e in events">
-                <td>{{e.eventName}}</td>
-                <td><a href="/#/players/{{e.playerId}}">{{e.playerName}}</a></td>
-                <td>{{e.gameMinute}}</td>
+        <table ng-table="gameEventsTable" class="table table-striped">
+            <tbody ng-repeat="group in $groups">
+            <tr class="ng-table-group">
+                <td colspan="{{$columns.length}}">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.value }}</strong>
+                    </a>
+                </td>
             </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="e in group.data">
+               <!-- <td data-title="'Händelse'" class="left" sortable="eventType">{{e.eventName}}</td> -->
+                <td data-title="'Spelare'" class="left" sortable="player.name"><a href="/#/players/{{e.playerId}}">{{e.playerName}}</a></td>
+                <td data-title="'Matchminut'" class="left" sortable="gameMinute">{{e.gameMinute}}</td>
+            </tr>
+            </tbody>
         </table>
     </tab>
     <tab heading="Noteringar">

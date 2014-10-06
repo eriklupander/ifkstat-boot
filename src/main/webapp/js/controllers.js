@@ -40,10 +40,7 @@ ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams
             success(function(data, status, headers, config) {
                 $scope.clubsList = new ngTableParams({
                     page: 1,
-                    count: 25,
-                    filter: {
-                        name: ''
-                    }
+                    count: 25
                 }, {
                     total: data.length, // length of data
                     getData: function($defer, params) {
@@ -64,10 +61,13 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
     function($scope, $http, $routeParams, $filter, ngTableParams) {
         $scope.playerId = $routeParams.id;
         $scope.tournamentId = $routeParams.tournamentId;
+        $scope.clubId = $routeParams.clubId;
         if($scope.playerId && $scope.tournamentId) {
-            var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games'
+            var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games';
+        } else if($scope.clubId) {
+            var myUrl = '/rest/view/clubs/' + $scope.clubId + '/games';
         } else {
-            var myUrl = '/rest/view/games'
+            var myUrl = '/rest/view/games';
         }
 
 
@@ -100,8 +100,8 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
         updateNavBarByElementId('nav-games');
     }]);
 
-ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams',
-    function($scope, $http, $routeParams) {
+ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
+    function($scope, $http, $routeParams, $filter, ngTableParams) {
         $scope.gameId = $routeParams.id;
         $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId}).
             success(function(data, status, headers, config) {
@@ -126,22 +126,38 @@ ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParam
 
         $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId + '/events'}).
             success(function(data, status, headers, config) {
-                $scope.events = [];
-                for(var i = 0; i < data.length; i++) {
-                    var eventName =  data[i].eventType == 'GOAL' ? 'Mål' : (data[i].eventType == 'SUBSTITUTION_IN' ? 'Inbytt' : 'Utbytt');
-                    var playerId = data[i].player.id;
-                    var playerName = data[i].player.name;
-                    var gameMinute = data[i].gameMinute != null ?  data[i].gameMinute : '--';
 
-                    var row = {
-                        'eventName' : eventName,
-                        'playerId' :  playerId,
-                        'playerName' : playerName,
-                        'gameMinute' : gameMinute
+                $scope.gameEventsTable = new ngTableParams({
+                    page: 1,
+                    count: 10
+                }, {
+                    groupBy: 'eventName',
+                    total: data.length, // length of data
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        var slicedData = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                        params.total(data.length);
+                        var events = [];
+                        for(var i = 0; i < slicedData.length; i++) {
+                            var eventName =  slicedData[i].eventType == 'GOAL' ? 'Mål' : (slicedData[i].eventType == 'SUBSTITUTION_IN' ? 'Inbytt' : 'Utbytt');
+                            var playerId = slicedData[i].player.id;
+                            var playerName = slicedData[i].player.name;
+                            var gameMinute = slicedData[i].gameMinute != null ?  slicedData[i].gameMinute : '--';
+
+                            var row = {
+                                'eventName' : eventName,
+                                'playerId' :  playerId,
+                                'playerName' : playerName,
+                                'gameMinute' : gameMinute
+                            }
+
+                            events.push(row);
+                        }
+                        $defer.resolve(events);
                     }
-
-                    $scope.events.push(row);
-                }
+                });
             })
 
         $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId + '/notes'}).
@@ -247,12 +263,10 @@ ifkstatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routePara
 		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/resultstats/full'}).
         success(function(data, status, headers, config) {
                 $scope.extendedResultsParams = new ngTableParams({
-                    page: 1,            // show first page
-                    count: 10,           // count per page,
-                    filter: {
-                        name: ''       // initial filter
-                    }
+                    page: 1,
+                    count: 10
                 }, {
+                    groupBy: 'tournament',
                     total: data.length, // length of data
                     getData: function($defer, params) {
                         var orderedData = params.sorting() ?
@@ -288,6 +302,27 @@ ifkstatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routePara
                 });
         });
 
+        $scope.ses = {};
+        $http({method: 'GET', url: '/rest/view/players/' + $scope.playerId + '/playedwith'}).
+            success(function(data, status, headers, config) {
+                $scope.playedWithParams = new ngTableParams({
+                    page: 1,
+                    count: 10,
+                    filter: {
+                        name: ''
+                    }
+                }, {
+                    total: data.length, // length of data
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        var slicedData = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                        params.total(data.length);
+                        $defer.resolve(slicedData);
+                    }
+                });
+            });
 
         updateNavBarByElementId('nav-players');
     }]);

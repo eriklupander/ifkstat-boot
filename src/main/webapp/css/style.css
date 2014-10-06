@@ -26,9 +26,17 @@
 }
 
 .left {
-    text-align: left !important;
+   /* text-align: left !important; */
 }
 
 .ng-table th.text-left {
     text-align: left !important;
+}
+
+.tab-content {
+    background-color: #EEEEEE;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    background-color: #EEEEEE !important;
 }

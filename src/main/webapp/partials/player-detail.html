@@ -19,6 +19,7 @@
 	</tab>
 
 	<tab heading="Statistik" ng-click="history('stats');">
+        <h4>Statistik över matcher/mål/inhopp i olika turneringar.</h4>
 		<table ng-table="tableParams" template-pagination="custom/pager" class="table table-striped">
 				<tr ng-repeat="i in $data">
 					<td data-title="'Turnering'" header-class="text-left" class="text-left" filter="{ 'tournamentName': 'text' }" sortable="tournamentName">{{i.tournamentName}}</td>
@@ -33,6 +34,7 @@
 	</tab>
 
 	<tab heading="Positioner">
+        <h4>Statistik över position, matcher/mål i olika laguppställningar.</h4>
 		<table ng-table="positionsParams" template-pagination="custom/pager" class="table table-striped">
 			<tbody>
 				<tr ng-repeat="i in $data">
@@ -63,10 +65,18 @@
 
 	<tab heading="Utökade resultat">
 		<table ng-table="extendedResultsParams" template-pagination="custom/pager" class="table table-striped">
-			<tbody>
-				<tr ng-repeat="i in $data">
-					<td data-title="'Deltagande'" sortable="participationType">{{i.participationType}}</td>
-					<td data-title="'Turnering'" sortable="tournament">{{i.tournament}}</td>
+            <tbody ng-repeat="group in $groups">
+            <tr class="ng-table-group">
+                <td colspan="{{$columns.length}}">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.value }}</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows"  ng-repeat="i in group.data">
+					<td data-title="'Deltagande'" sortable="tournament">{{i.participationType == 'STARTER' ? 'Startelvan' : (i.participationType == 'SUBSTITUTE' ? 'Inbytt' : 'Deltog ej')}}</td>
+					<!-- <td data-title="'Turnering'" sortable="tournament">{{i.tournament}}</td>    -->
                     <td data-title="'Säsong'" sortable="season">{{i.season}}</td>
 					<td data-title="'Matcher'" sortable="games">{{i.games}}</td>
 					<td data-title="'Vinster'" sortable="wins">{{i.wins}}</td>
@@ -89,7 +99,18 @@
 				</tr>
 			</tbody>
 		</table>
-	</tab>    
+	</tab>
+
+    <tab heading="Medspelare">
+        <table style="width:600px;" ng-table="playedWithParams" template-pagination="custom/pager" class="table table-striped">
+            <tbody>
+            <tr ng-repeat="i in $data">
+                <td data-title="'Spelare'" sortable="name">{{i.name}}</td>
+                <td data-title="'Matcher'" sortable="gamesWithPlayer">{{i.gamesWithPlayer}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </tab>
 </tabset>
 
 

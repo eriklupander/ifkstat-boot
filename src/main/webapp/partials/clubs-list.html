@@ -2,7 +2,7 @@
 
     <tbody>
     <tr ng-repeat="c in $data">
-        <td data-title="'Klubb'" sortable="clubName">{{c.clubName}}</td>
+        <td data-title="'Klubb'" sortable="clubName"><a href="/#/clubs/{{c.clubId}}/games">{{c.clubName}}</a></td>
         <td data-title="'M'" sortable="games">{{c.games}}</td>
         <td data-title="'V'" sortable="wins">{{c.wins}}</td>
         <td data-title="'O'" sortable="draws">{{c.draws}}</td>
@@ -33,9 +33,14 @@
         <th class="left" colspan="5">Borta</th>
     </tr>
     <tr>
-        <th class="left">Klubb</th>
-        <th class="left">M</th>
-        <th class="left">V</th>
+        <th class="sortable"
+            ng-class="{
+                    'sort-asc': clubsList.isSortBy('clubName', 'asc'),
+                    'sort-desc': clubsList.isSortBy('clubName', 'desc')
+                  }"
+            ng-click="clubsList.sorting({'clubName' : clubsList.isSortBy('clubName', 'asc') ? 'desc' : 'asc'})">Klubb</th>
+        <th class="sortable left">M</th>
+        <th class="sortable left">V</th>
         <th class="left">O</th>
         <th class="left">F</th>
         <th class="left">Mål</th>
