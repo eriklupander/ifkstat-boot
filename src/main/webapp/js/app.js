@@ -37,6 +37,18 @@ phonecatApp.config(['$routeProvider',
                 templateUrl: 'partials/games-list.html',
                 controller: 'GamesListCtrl'
             }).
+            when('/tournaments', {
+                templateUrl: 'partials/tournaments-list.html',
+                controller: 'TournamentsListCtrl'
+            }).
+            when('/tournaments/:id/seasons', {
+                templateUrl: 'partials/tournamentseasons-list.html',
+                controller: 'TournamentSeasonsListCtrl'
+            }).
+            when('/tournamentseasons/:tournamentSeasonId/games', {
+                templateUrl: 'partials/games-list.html',
+                controller: 'GamesListCtrl'
+            }).
             otherwise({
                 redirectTo: '/players'
             });

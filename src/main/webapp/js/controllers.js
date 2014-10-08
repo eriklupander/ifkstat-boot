@@ -57,15 +57,74 @@ ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams
 );
 
 
+ifkstatControllers.controller('TournamentsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
+    function($scope, $http, $routeParams, $filter, ngTableParams) {
+
+        $http({method: 'GET', url: '/rest/view/tournaments'}).
+            success(function(data, status, headers, config) {
+                $scope.tournamentsParams = new ngTableParams({
+                    page: 1,
+                    count: 25
+                }, {
+                    total: data.length, // length of data
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                        params.total(data.length);
+                        $defer.resolve(sliced);
+                    }
+                });
+            });
+    }]
+);
+
+ifkstatControllers.controller('TournamentSeasonsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
+    function($scope, $http, $routeParams, $filter, ngTableParams) {
+
+        $http({method: 'GET', url: '/rest/view/tournaments/' + $routeParams.id + '/seasons'}).
+            success(function(data, status, headers, config) {
+                $scope.tournamentseasonsParams = new ngTableParams({
+                    page: 1,
+                    count: 25
+                }, {
+                    total: data.length, // length of data
+                    getData: function($defer, params) {
+                        var orderedData = params.sorting() ?
+                            $filter('orderBy')(data, params.orderBy()) :
+                            data;
+                        var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                        params.total(data.length);
+                        $defer.resolve(sliced);
+                    }
+                });
+            });
+    }]
+);
+
+
 ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
     function($scope, $http, $routeParams, $filter, ngTableParams) {
         $scope.playerId = $routeParams.id;
         $scope.tournamentId = $routeParams.tournamentId;
         $scope.clubId = $routeParams.clubId;
+        $scope.tournamentSeasonId = $routeParams.tournamentSeasonId;
+
         if($scope.playerId && $scope.tournamentId) {
             var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games';
         } else if($scope.clubId) {
             var myUrl = '/rest/view/clubs/' + $scope.clubId + '/games';
+            $http({method: 'GET', url: '/rest/view/clubs/' + $scope.clubId}).
+                success(function(data, status, headers, config) {
+                    $scope.vsClub = data.name;
+                });
+        } else if($scope.tournamentSeasonId) {
+            var myUrl = '/rest/view/tournamentseasons/' +$scope.tournamentSeasonId+ '/games';
+            $http({method: 'GET', url: '/rest/view/tournamentseasons/' + $scope.tournamentSeasonId}).
+                success(function(data, status, headers, config) {
+                    $scope.tournamentSeasonName = data.tournament.name + ', ' + data.seasonName;
+                });
         } else {
             var myUrl = '/rest/view/games';
         }

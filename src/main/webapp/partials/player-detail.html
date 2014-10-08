@@ -105,7 +105,7 @@
         <table style="width:600px;" ng-table="playedWithParams" template-pagination="custom/pager" class="table table-striped">
             <tbody>
             <tr ng-repeat="i in $data">
-                <td data-title="'Spelare'" sortable="name">{{i.name}}</td>
+                <td data-title="'Spelare'" sortable="name"><a href="/#/players/{{i.id}}">{{i.name}}</a></td>
                 <td data-title="'Matcher'" sortable="gamesWithPlayer">{{i.gamesWithPlayer}}</td>
             </tr>
             </tbody>

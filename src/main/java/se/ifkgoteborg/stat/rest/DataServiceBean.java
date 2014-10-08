@@ -143,6 +143,13 @@ public class DataServiceBean {
                 .getResultList();
     }
 
+    @RequestMapping(value = "/tournamentseasons/{id}", method=RequestMethod.GET, produces = JSON)
+    public TournamentSeason getTournamentSeason(@PathVariable Long id) {
+        return (TournamentSeason) em.createQuery("select ts from TournamentSeason ts WHERE ts.id = :id")
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/tournamentseasons/{id}/games", method=RequestMethod.GET, produces = JSON)
     public List<Game> getGamesOfTournamentSeason(@PathVariable Long id) {
@@ -176,6 +183,8 @@ public class DataServiceBean {
     public List<Referee> getReferees() {
         return em.createQuery("select r from Referee r ORDER BY r.name").getResultList();
     }
+
+
 
     @RequestMapping(value = "/tournaments/{id}/seasons", method=RequestMethod.GET, produces = JSON)
     public List<TournamentSeason> getSeasonsOfTournament(@PathVariable Long id) {
@@ -215,7 +224,7 @@ public class DataServiceBean {
     @RequestMapping(value = "/players/{id}/playedwith", method=RequestMethod.GET, produces = JSON)
     public List<PlayedWithPlayerDTO> getPlayersPlayerPlayedWith(@PathVariable Long id) {
         List<PlayedWithPlayerDTO> list = new ArrayList<PlayedWithPlayerDTO>();
-        Query q = em.createNativeQuery("SELECT distinct(p1.name) as name, COUNT(pg1.game_id) as cnt, MIN(g1.dateOfGame) as firstGame, MAX(g1.dateOfGame) as lastGame " +
+        Query q = em.createNativeQuery("SELECT distinct(p1.name) as name, p1.id, COUNT(pg1.game_id) as cnt, MIN(g1.dateOfGame) as firstGame, MAX(g1.dateOfGame) as lastGame " +
                 "FROM PLAYER_GAME pg1 " +
                 "INNER JOIN PLAYER p1 ON p1.id=pg1.player_id " +
                 "INNER JOIN GAME g1 ON g1.id=pg1.game_id " +
@@ -229,7 +238,8 @@ public class DataServiceBean {
         for(Object[] row : res) {
             PlayedWithPlayerDTO dto = new PlayedWithPlayerDTO();
             dto.setName((String) row[0]);
-            dto.setGamesWithPlayer((Number) row[1]);
+            dto.setId(formatLong(row[1]));
+            dto.setGamesWithPlayer((Number) row[2]);
             list.add(dto);
         }
         return list;
@@ -988,6 +998,22 @@ public class DataServiceBean {
             }
         }
         return goals;
+    }
+
+    @RequestMapping(value = "/clubs/{id}", method=RequestMethod.GET, produces = JSON)
+    public ClubDTO getClub(@PathVariable Long id) {
+        List<Club> clubs = em.createQuery("SELECT c FROM Club c WHERE c.id = :id ORDER BY c.name")
+                .setParameter("id", id)
+                .getResultList();
+        if(clubs != null && clubs.size() == 1) {
+            ClubDTO dto = new ClubDTO();
+            dto.setId(clubs.get(0).getId());
+            dto.setName(clubs.get(0).getName());
+            return dto;
+        } else {
+           return null; // Should return 404 properly here...
+        }
+
     }
 
     @RequestMapping(value = "/clubs", method=RequestMethod.GET, produces = JSON)

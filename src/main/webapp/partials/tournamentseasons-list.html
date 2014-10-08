@@ -1,0 +1,6 @@
+<table ng-table="tournamentseasonsParams" class="table table-striped">
+    <tr ng-repeat="t in $data">
+        <td data-title="'Namn'" class="left" sortable="tournament.name"><a href="/#/tournamentseasons/{{t.id}}/games">{{t.tournament.name}}</a></td>
+        <td data-title="'Säsong'" class="left" sortable="seasonName">{{t.seasonName}}</td>
+    </tr>
+</table>
