@@ -2,11 +2,11 @@
 
     <tbody>
     <tr ng-repeat="c in $data">
-        <td data-title="'Klubb'" sortable="clubName"><a href="/#/clubs/{{c.clubId}}/games">{{c.clubName}}</a></td>
-        <td data-title="'M'" sortable="games">{{c.games}}</td>
-        <td data-title="'V'" sortable="wins">{{c.wins}}</td>
-        <td data-title="'O'" sortable="draws">{{c.draws}}</td>
-        <td data-title="'F'" sortable="losses">{{c.losses}}</td>
+        <td data-title="'Klubb'" sortable="'clubName'"><a href="/#/clubs/{{c.clubId}}/games">{{c.clubName}}</a></td>
+        <td data-title="'M'" sortable="'games'">{{c.games}}</td>
+        <td data-title="'V'" sortable="'wins'">{{c.wins}}</td>
+        <td data-title="'O'" sortable="'draws'">{{c.draws}}</td>
+        <td data-title="'F'" sortable="'losses'">{{c.losses}}</td>
         <td data-title="'Mål'">{{c.goalsScored + '-' + c.goalsConceded}}</td>
         <td data-title="'M'" sortable="homeGames">{{c.homeGames}}</td>
         <td data-title="'V'" sortable="homeWins">{{c.homeWins}}</td>

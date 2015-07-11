@@ -1,8 +1,6 @@
-'use strict';
+﻿'use strict';
 
 var ifkstatControllers = angular.module('ifkstatControllers', []);
-
-//var phonecatApp = angular.module('phonecatApp', []);
 
 ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'ngTableParams', function($scope, $http, $filter, ngTableParams) {
 
@@ -13,6 +11,9 @@ ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'n
                 count: 25,
                 filter: {
                     name: ''
+                },
+                sorting: {
+                    name: 'asc'     // initial sorting
                 }
             }, {
                 total: data.length, // length of data
@@ -40,7 +41,10 @@ ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams
             success(function(data, status, headers, config) {
                 $scope.clubsList = new ngTableParams({
                     page: 1,
-                    count: 25
+                    count: 25,
+                    sorting: {
+                        clubName: 'asc'     // initial sorting
+                    }
                 }, {
                     total: data.length, // length of data
                     getData: function($defer, params) {
@@ -137,6 +141,9 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
                     count: 25,
                     filter: {
                         name: ''
+                    },
+                    sorting: {
+                        dateOfGame: 'desc'     // initial sorting
                     }
                 }, {
                     total: data.length, // length of data
@@ -226,7 +233,7 @@ ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParam
     }]);
 
 
-ifkstatControllers.controller('PhoneDetailCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
+ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
     function($scope, $http, $routeParams, $filter, ngTableParams) {
 
 		$scope.p = {};
