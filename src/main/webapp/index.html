@@ -1,23 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="phonecatApp">
+<html ng-app="ifkstatApp">
 
 <head>
     <meta charset="UTF-8">
 
-     <!--
-   <script data-require="angular.js@*" data-semver="1.2.5" src="http://code.angularjs.org/1.2.5/angular.js"></script>
-   <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-   <script data-require="bootstrap@*" data-semver="3.0.2" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-   <script data-require="angular.js@*" data-semver="1.2.5" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.js"></script>
-
-   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css"/>
-   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css"/>
-   <link rel="stylesheet" href="style.css" />
-   <script src="js/app.js"></script>
-   <script src="js/controllers.js"></script>
-  
-    <link data-require="bootstrap-css@3.0.2" data-semver="3.0.3" rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
-     -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css"/>
 
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css"/>
@@ -30,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
 	<script src="js/lib/ui-bootstrap-tpls-0.11.2.min.js"></script>
-    <!-- <script src="js/lib/ng-table.min.js"></script> -->
+
     <script data-require="ng-table@*" data-semver="0.5.5" src="js/lib/ng-table.min.js"></script>
     <link data-require="ng-table@*" data-semver="0.5.5" rel="stylesheet" href="css/ng-table.min.css" />
     <link rel="stylesheet" href="css/style.css"/>
@@ -41,19 +27,15 @@
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
+    <div ng-controller="navigation" class="navbar-header">
         <ul id="nav-ul" class="nav navbar-nav">
             <li id="nav-players" onclick="updateNavBar(this);"><a class="navbar-brand active" href="/#/players">Spelare</a></li>
             <li id="nav-games" onclick="updateNavBar(this);"> <a class="navbar-brand" href="/#/games">Matcher</a></li>
             <li id="nav-clubs" onclick="updateNavBar(this);">  <a class="navbar-brand" href="/#/clubs/stats">Klubbar</a></li>
             <li id="nav-tournaments" onclick="updateNavBar(this);">  <a class="navbar-brand" href="/#/tournaments">Turneringar</a></li>
+            <li><a href="#/login">login</a></li>
+            <li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
         </ul>
-
-            <!--
-        <a class="navbar-brand active" href="/#/players">Spelare</a>
-        <a class="navbar-brand" href="/#/games">Matcher</a>
-        <a class="navbar-brand" href="/#/clubs">Klubbar</a>
-        -->
     </div>
 </nav>
     <div class="container-fluid" ng-view></div>
@@ -67,8 +49,8 @@
         <li ng-repeat="page in pages"
             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
-            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Föregående</a>
+            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Nästa &raquo;</a>
         </li>
         <li>
             <div class="btn-group">

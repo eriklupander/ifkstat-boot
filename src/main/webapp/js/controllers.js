@@ -18,9 +18,16 @@ ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'n
             }, {
                 total: data.length, // length of data
                 getData: function($defer, params) {
-                    var orderedData = params.sorting() ?
-                        $filter('orderBy')(data, params.orderBy()) :
+
+                    // use build-in angular filter
+                    var filteredData = params.filter() ?
+                        $filter('filter')(data, params.filter()) :
                         data;
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(filteredData, params.orderBy()) :
+                        filteredData;
+
+
                     var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
                     params.total(data.length);
                     $defer.resolve(sliced);
@@ -33,6 +40,53 @@ ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'n
 
 }]);
 
+ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, $location) {
+
+    var authenticate = function(credentials, callback) {
+
+        var headers = credentials ? {authorization : "Basic "
+            + btoa(credentials.username + ":" + credentials.password)
+        } : {};
+
+        $http.get('user', {headers : headers}).success(function(data) {
+            if (data.name) {
+                $rootScope.authenticated = true;
+            } else {
+                $rootScope.authenticated = false;
+            }
+            callback && callback();
+        }).error(function() {
+                $rootScope.authenticated = false;
+                callback && callback();
+            });
+
+    }
+
+    authenticate();
+    $scope.credentials = {};
+    $scope.login = function() {
+        authenticate($scope.credentials, function() {
+            if ($rootScope.authenticated) {
+                $location.path("/");
+                $scope.error = false;
+            } else {
+                $location.path("/login");
+                $scope.error = true;
+            }
+        });
+    };
+
+    $scope.logout = function() {
+        $http.post('logout', {}).success(function() {
+            $rootScope.authenticated = false;
+            $location.path("/");
+        }).error(function(data) {
+                $rootScope.authenticated = false;
+                $location.path("/");
+            });
+    };
+
+});
 
 ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
     function($scope, $http, $routeParams, $filter, ngTableParams) {
@@ -237,6 +291,14 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
     function($scope, $http, $routeParams, $filter, ngTableParams) {
 
 		$scope.p = {};
+        $scope.edit = false;
+        $scope.toggleEdit = function() {
+            $scope.edit = !$scope.edit;
+        };
+        $scope.update = function(p) {
+            console.log(p.name);
+            $scope.toggleEdit();
+        }
 	
 		$scope.playerId = $routeParams.id;
 		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).
@@ -262,6 +324,9 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                 count: 10,           // count per page,
                 filter: {
                     name: ''       // initial filter
+                },
+                sorting: {
+                    tournamentName : 'asc'
                 }
             }, {
                 total: $scope.ps.length, // length of data
@@ -289,6 +354,9 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                     count: 10,           // count per page,
                     filter: {
                         name: ''       // initial filter
+                    },
+                    sorting: {
+                        games : 'desc'
                     }
                 }, {
                     total: data.length, // length of data
@@ -318,6 +386,14 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                         var orderedData = params.sorting() ?
                             $filter('orderBy')(data, params.orderBy()) :
                             data;
+
+                        orderedData = $.map(orderedData, function(row) {
+                            if (row.participationType == 'STARTER') row.participationType = 'Startelvan';
+                            if (row.participationType == 'SUBSTITUTE') row.participationType = 'Inhoppare';
+                            if (row.participationType == 'NO_PART') row.participationType = 'Deltog ej';
+                            return row;
+                        });
+
                         var slicedData = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
                         params.total(data.length);
                         $defer.resolve(slicedData);
@@ -330,7 +406,12 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
         success(function(data, status, headers, config) {
                 $scope.extendedResultsParams = new ngTableParams({
                     page: 1,
-                    count: 10
+                    count: 10,
+                    sorting: {
+                        tournament : 'asc',
+                        season : 'desc'
+                    }
+
                 }, {
                     groupBy: 'tournament',
                     total: data.length, // length of data
@@ -354,6 +435,10 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                     count: 10,
                     filter: {
                         name: ''
+                    },
+                    sorting : {
+                        tournamentName : 'asc',
+                        seasonName : 'desc'
                     }
                 }, {
                     total: data.length, // length of data
@@ -376,6 +461,9 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                     count: 10,
                     filter: {
                         name: ''
+                    },
+                    sorting: {
+                        gamesWithPlayer: 'desc'
                     }
                 }, {
                     total: data.length, // length of data

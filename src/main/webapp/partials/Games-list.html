@@ -5,15 +5,15 @@
 <table ng-table="gamesList" template-pagination="custom/pager" class="table table-striped">
 
         <tr ng-repeat="g in $data">
-            <td data-title="'Datum'" sortable="dateOfGame"><a href="/#/games/{{g.id}}">{{g.dateOfGame}}</a></td>
-            <td data-title="'Hemmalag'" sortable="homeTeam.name"><span ng-show="{{g.homeTeam.name == 'IFK Göteborg'}}">{{g.homeTeam.name}}</span><a ng-show="{{g.homeTeam.name != 'IFK Göteborg'}}" href="/#/clubs/{{g.homeTeam.id}}/games">{{g.homeTeam.name}}</a></td>
-            <td data-title="'Bortalag'" sortable="awayTeam.name"><span ng-show="{{g.awayTeam.name == 'IFK Göteborg'}}">{{g.awayTeam.name}}</span><a ng-show="{{g.awayTeam.name != 'IFK Göteborg'}}" href="/#/clubs/{{g.awayTeam.id}}/games">{{g.awayTeam.name}}</a></td>
+            <td data-title="'Datum'" sortable="'dateOfGame'"><a href="/#/games/{{g.id}}">{{g.dateOfGame}}</a></td>
+            <td data-title="'Hemmalag'" sortable="'homeTeam.name'"><span ng-show="{{g.homeTeam.name == 'IFK Göteborg'}}">{{g.homeTeam.name}}</span><a ng-show="{{g.homeTeam.name != 'IFK Göteborg'}}" href="/#/clubs/{{g.homeTeam.id}}/games">{{g.homeTeam.name}}</a></td>
+            <td data-title="'Bortalag'" sortable="'awayTeam.name'"><span ng-show="{{g.awayTeam.name == 'IFK Göteborg'}}">{{g.awayTeam.name}}</span><a ng-show="{{g.awayTeam.name != 'IFK Göteborg'}}" href="/#/clubs/{{g.awayTeam.id}}/games">{{g.awayTeam.name}}</a></td>
             <td data-title="'Resultat'">{{g.homeGoals}}-{{g.awayGoals}} ({{g.homeGoalsHalftime}}-{{g.awayGoalsHalftime}})
             </td>
-            <td data-title="'Turnering'" sortable="tournamentSeason.tournament.name">
+            <td data-title="'Turnering'" sortable="'tournamentSeason.tournament.name'">
                 {{g.tournamentSeason.tournament.name}}
             </td>
-            <td data-title="'Formation'" sortable="formation.name">{{g.formation.name}}</td>
+            <td data-title="'Formation'" sortable="'formation.name'">{{g.formation.name}}</td>
         </tr>
 
 </table>

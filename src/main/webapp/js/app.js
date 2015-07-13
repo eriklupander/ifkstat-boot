@@ -1,12 +1,12 @@
 'use strict';
 
-var phonecatApp = angular.module('phonecatApp', [
+var ifkstatApp = angular.module('ifkstatApp', [
     'ngRoute',
 	'ui.bootstrap',
     'ngTable',
     'ifkstatControllers'
 ]);
-phonecatApp.config(['$routeProvider',
+ifkstatApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
             when('/players', {
@@ -48,6 +48,9 @@ phonecatApp.config(['$routeProvider',
             when('/tournamentseasons/:tournamentSeasonId/games', {
                 templateUrl: 'partials/games-list.html',
                 controller: 'GamesListCtrl'
+            }).when('/login', {
+                templateUrl : 'login.html',
+                controller : 'navigation'
             }).
             otherwise({
                 redirectTo: '/players'

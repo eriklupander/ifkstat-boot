@@ -23,10 +23,11 @@ import se.ifkgoteborg.stat.util.StringUtil;
 
 public class XlsTransformer {
 
-	private static final String OUTPUT_FILE = "c:\\java\\workspace\\ifkstat\\data\\master-20130816.txt";
+	private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20130816.txt";
 	//private static final String OUTPUT_FILE = "c:\\tankesmedja\\ifkstat\\ifkstat\\data\\master.txt";
 
-	public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
+	//public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
+    public static final String ROOT_FOLDER = "c:\\projects\\ifk";
 	//public static final String ROOT_FOLDER = "C:\\Users\\Erik\\Dropbox\\Statistik till webben";
 	
 	private static final String GOAL_TOKEN = "•";
@@ -100,7 +101,7 @@ public class XlsTransformer {
 		
 		String season =  f.getName().replaceAll("[^\\d]", " ").trim();
 		int startYear = StringUtil.parseSeasonStringToStartYear(season);
-		if(startYear > 2012)
+		if(startYear > 2013)
 			return;
 		buf.append("$$$$" + season + "\n");
 		
@@ -342,7 +343,13 @@ public class XlsTransformer {
 	}
 
 	private void writeCellData(HSSFRow gameRow, int cellIndex) {
-		if(cellIndex == 2) {
+        if(cellIndex == 1) {
+              String cellData = gameRow.getCell(cellIndex).toString();
+            if(cellData.contains(".")) {
+                cellData = cellData.replace('.', '/');
+            }
+            buf.append(cellData);
+        } else if(cellIndex == 2) {
 			// Away team
 			if(gameRow.getCell(cellIndex).toString().indexOf("(") > 0) {
 				buf.append(gameRow.getCell(cellIndex).toString().substring(0, gameRow.getCell(cellIndex).toString().indexOf("(")));

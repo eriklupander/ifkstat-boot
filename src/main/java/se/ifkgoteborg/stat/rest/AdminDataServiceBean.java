@@ -1,5 +1,7 @@
 package se.ifkgoteborg.stat.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,9 @@ public class AdminDataServiceBean {
 	
 	@PersistenceContext
 	EntityManager em;
+
+    @Autowired
+    Environment env;
 
     @RequestMapping(method = RequestMethod.POST, value = "/player", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Player> savePlayer(Player player) {

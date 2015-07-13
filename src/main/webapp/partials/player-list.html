@@ -1,11 +1,11 @@
 <h2>Spelare genom tiderna</h2>
 
 
-<table ng-table="tableParams" template-pagination="custom/pager" class="table table-striped">
+<table ng-table="tableParams" template-pagination="custom/pager"  show-filter="true" class="table table-striped">
 
     <tbody>
         <tr ng-repeat="d in $data">
-            <td data-title="'Namn'" class="left" sortable="'name'"><a href="#/players/{{d.id}}">{{d.name}}</a></td>
+            <td data-title="'Namn'" class="left" sortable="'name'" filter="{ 'name': 'text' }"><a href="#/players/{{d.id}}">{{d.name}}</a></td>
             <td data-title="'Matcher'" class="left" sortable="'games'">{{d.games}}</td>
             <td data-title="'Mål'" class="left" sortable="'goals'">{{d.goals}}</td>
             <td data-title="'Första match'" class="left"  sortable="'firstGame'">{{d.firstGame | date:'yyyy-MM-dd'}}</td>

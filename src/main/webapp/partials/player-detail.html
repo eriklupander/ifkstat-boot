@@ -2,29 +2,136 @@
         <hr/>
 <tabset id="tabset">
     <tab heading="Spelardata">
-		<table class="table table-striped"> 
-				<thead><tr><th colspan="2"> {{p.name}}</th></tr></thead>
-				<tbody>
-					<tr><td>Namn</td><td>{{p.name}}</td></tr> 
-					<tr><td>Född</td><td>{{p.dateOfBirth}}</td></tr>
-					<tr><td>Moderklubb</td><td>{{p.motherClub}}</td></tr>
-					<tr><td>Övriga klubbar</td><td>{{p.playedForClubs}}</td></tr>
-					<tr><td>Längd</td><td>{{p.length}}</td></tr>
-					<tr><td>Vikt</td><td>{{p.weight}}</td></tr>
-					<tr><td>Nationalitet</td><td>{{p.nationality}}</td></tr>
-					<tr><td>Position</td><td>{{p.positionType}}</td></tr>
-					<tr><td>Biografi</td><td>{{p.biography}}</td></tr>
-				</tbody>
-		</table>
+       <br/>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-11">{{p.name}}, {{p.numberOfGames}} matcher. </div>
+                <div class="col-md-1 text-right">
+                    <button ng-if="authenticated" class="btn btn-info" ng-click="toggleEdit()">Edit</button>
+                </div>
+            </div>
+        </div >
+
+
+        <div class="container-fluid" ng-if="edit && authenticated">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Namn</label>
+                    <div class="col-sm-10">
+                         <input type="text" class="form-control" style="height:36px;" id="name" ng-model="p.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth" class="col-sm-2 control-label">Född</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="dateOfBirth" ng-model="p.dateOfBirth">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="motherClub" class="col-sm-2 control-label">Moderklubb</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="motherClub" ng-model="p.motherClub">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="playedForClubs" class="col-sm-2 control-label">Övriga klubbar</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="playedForClubs" ng-model="p.playedForClubs">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="length" class="col-sm-2 control-label">Längd</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="length" ng-model="p.length">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nationality" class="col-sm-2 control-label">Nationalitet</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="nationality" ng-model="p.nationality">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="positionType" class="col-sm-2 control-label">Position</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="height:36px;" id="positionType" ng-model="p.positionType">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="biography" class="col-sm-2 control-label">Biografi</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="biography" ng-model="p.biography"/>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-11">
+                        <input type="submit" class="btn btn-success" ng-click="update(p)" value="Spara" />
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+
+
+        <div class="container-fluid" ng-if="!edit">
+            <div class="row">
+                <div class="col-md-2">Namn</div>
+                <div ng-if="!edit" class="col-md-4">{{p.name}}</div>
+                <div ng-if="edit" class="col-md-4"><input type="text" value="{{p.name}}"/></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Född</div>
+                <div class="col-md-4">{{p.dateOfBirth}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Moderklubb</div>
+                <div class="col-md-4">{{p.motherClub}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Övriga klubbar</div>
+                <div class="col-md-4">{{p.playedForClubs}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Längd</div>
+                <div class="col-md-4">{{p.length}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Vikt</div>
+                <div class="col-md-4">{{p.weight}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Nationalitet</div>
+                <div class="col-md-4">{{p.nationality}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Position</div>
+                <div class="col-md-4">{{p.positionType}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">Biografi</div>
+                <div class="col-md-4">{{p.biography}}</div>
+            </div>
+        </div>
 	</tab>
 
 	<tab heading="Statistik" ng-click="history('stats');">
         <h4>Statistik över matcher/mål/inhopp i olika turneringar.</h4>
 		<table ng-table="tableParams" template-pagination="custom/pager" class="table table-striped">
 				<tr ng-repeat="i in $data">
-					<td data-title="'Turnering'" header-class="text-left" class="text-left" filter="{ 'tournamentName': 'text' }" sortable="tournamentName">{{i.tournamentName}}</td>
-                    <td data-title="'Matcher'" sortable="totalGames"><a href="/#/players/{{playerId}}/tournaments/{{i.tournamentId}}/games">{{i.totalGames}}</a></td>
-					<td data-title="'Mål'" sortable="goals">{{i.goals}}</td>
+					<td data-title="'Turnering'" header-class="text-left" class="text-left" filter="{ 'tournamentName': 'text' }" sortable="'tournamentName'">{{i.tournamentName}}</td>
+                    <td data-title="'Matcher'" sortable="'totalGames'"><a href="/#/players/{{playerId}}/tournaments/{{i.tournamentId}}/games">{{i.totalGames}}</a></td>
+					<td data-title="'Mål'" sortable="'goals'">{{i.goals}}</td>
 					<td data-title="'Inbytt'" header-class="text-left">{{i.gamesAsSubstituteIn}}</td>
 					<td data-title="'Utbytt'" header-class="text-left">{{i.gamesAsSubstituteOut}}</td>
 					<td data-title="'Mål som inhoppare'" header-class="text-left">{{i.goalsAsSubstituteIn}}</td>
@@ -38,10 +145,10 @@
 		<table ng-table="positionsParams" template-pagination="custom/pager" class="table table-striped">
 			<tbody>
 				<tr ng-repeat="i in $data">
-					<td data-title="'Position'" sortable="positionName">{{i.positionName}}</td>
-					<td data-title="'Formation'" sortable="formationName">{{i.formationName}}</td>
-					<td data-title="'Matcher'" sortable="games">{{i.games}}</td>
-					<td data-title="'Mål'" sortable="goals">{{i.goals}}</td>
+					<td data-title="'Position'" sortable="'positionName'">{{i.positionName}}</td>
+					<td data-title="'Formation'" sortable="'formationName'">{{i.formationName}}</td>
+					<td data-title="'Matcher'" sortable="'games'">{{i.games}}</td>
+					<td data-title="'Mål'" sortable="'goals'">{{i.goals}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -51,12 +158,12 @@
 		<table ng-table="resultsParams" template-pagination="custom/pager" class="table table-striped">
 			<tbody>
 				<tr ng-repeat="i in $data">
-					<td data-title="'Deltagande'" sortable="participationType">{{i.participationType}}</td>
-					<td data-title="'Matcher'" sortable="games">{{i.games}}</td>
-					<td data-title="'Vinster'" sortable="wins">{{i.wins}}</td>
-					<td data-title="'Oavgjorda'" sortable="draws"> {{i.draws}}</td>
-					<td data-title="'Förluster'" sortable="losses">{{i.losses}}</td>
-					<td data-title="'Snittpoäng'" sortable="averagePoints">{{i.averagePoints}}</td>
+					<td data-title="'Deltagande'" sortable="'participationType'">{{i.participationType}}</td>
+					<td data-title="'Matcher'" sortable="'games'">{{i.games}}</td>
+					<td data-title="'Vinster'" sortable="'wins'">{{i.wins}}</td>
+					<td data-title="'Oavgjorda'" sortable="'draws'"> {{i.draws}}</td>
+					<td data-title="'Förluster'" sortable="'losses'">{{i.losses}}</td>
+					<td data-title="'Snittpoäng'" sortable="'averagePoints'">{{i.averagePoints}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -75,14 +182,14 @@
                 </td>
             </tr>
             <tr ng-hide="group.$hideRows"  ng-repeat="i in group.data">
-					<td data-title="'Deltagande'" sortable="tournament">{{i.participationType == 'STARTER' ? 'Startelvan' : (i.participationType == 'SUBSTITUTE' ? 'Inbytt' : 'Deltog ej')}}</td>
+					<td data-title="'Deltagande'" sortable="'tournament'">{{i.participationType == 'STARTER' ? 'Startelvan' : (i.participationType == 'SUBSTITUTE' ? 'Inbytt' : 'Deltog ej')}}</td>
 					<!-- <td data-title="'Turnering'" sortable="tournament">{{i.tournament}}</td>    -->
-                    <td data-title="'Säsong'" sortable="season">{{i.season}}</td>
-					<td data-title="'Matcher'" sortable="games">{{i.games}}</td>
-					<td data-title="'Vinster'" sortable="wins">{{i.wins}}</td>
-					<td data-title="'Oavgjorda'" sortable="draws">{{i.draws}}</td>
-					<td data-title="'Förluster'" sortable="losses">{{i.losses}}</td>
-					<td data-title="'Snittpoäng'" sortable="averagePoints">{{i.averagePoints}}</td>
+                    <td data-title="'Säsong'" sortable="'season'">{{i.season}}</td>
+					<td data-title="'Matcher'" sortable="'games'">{{i.games}}</td>
+					<td data-title="'Vinster'" sortable="'wins'">{{i.wins}}</td>
+					<td data-title="'Oavgjorda'" sortable="'draws'">{{i.draws}}</td>
+					<td data-title="'Förluster'" sortable="'losses'">{{i.losses}}</td>
+					<td data-title="'Snittpoäng'" sortable="'averagePoints'">{{i.averagePoints}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -92,10 +199,10 @@
 		<table ng-table="seasonsParams" template-pagination="custom/pager" class="table table-striped">
 			<tbody>
 				<tr ng-repeat="i in $data">
-					<td data-title="'Turnering'" sortable="tournamentName">{{i.tournamentName}}</td>
-					<td data-title="'Säsong'" sortable="seasonName">{{i.seasonName}}</td>
-					<td data-title="'Spelade matcher'" sortable="gamesPlayed">{{i.gamesPlayed}}</td>
-					<td data-title="'Totalt antal matcher'" sortable="totalGames">{{i.totalGames}}</td>
+					<td data-title="'Turnering'" sortable="'tournamentName'">{{i.tournamentName}}</td>
+					<td data-title="'Säsong'" sortable="'seasonName'">{{i.seasonName}}</td>
+					<td data-title="'Spelade matcher'" sortable="'gamesPlayed'">{{i.gamesPlayed}}</td>
+					<td data-title="'Totalt antal matcher'" sortable="'totalGames'">{{i.totalGames}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -105,8 +212,8 @@
         <table style="width:600px;" ng-table="playedWithParams" template-pagination="custom/pager" class="table table-striped">
             <tbody>
             <tr ng-repeat="i in $data">
-                <td data-title="'Spelare'" sortable="name"><a href="/#/players/{{i.id}}">{{i.name}}</a></td>
-                <td data-title="'Matcher'" sortable="gamesWithPlayer">{{i.gamesWithPlayer}}</td>
+                <td data-title="'Spelare'" sortable="'name'"><a href="/#/players/{{i.id}}">{{i.name}}</a></td>
+                <td data-title="'Matcher'" sortable="'gamesWithPlayer'">{{i.gamesWithPlayer}}</td>
             </tr>
             </tbody>
         </table>

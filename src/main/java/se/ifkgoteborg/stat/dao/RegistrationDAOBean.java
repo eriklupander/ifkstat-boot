@@ -2,6 +2,7 @@ package se.ifkgoteborg.stat.dao;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import se.ifkgoteborg.stat.controller.StatStartup;
@@ -25,6 +26,9 @@ public class RegistrationDAOBean implements RegistrationDAO {
 	
 	@Autowired
     StatStartup statStartup;
+
+    @Autowired
+    Environment env;
 	
 	
 	/* (non-Javadoc)
@@ -570,7 +574,7 @@ public class RegistrationDAOBean implements RegistrationDAO {
 
 	@Override
 	public void cleanDatabase(String password) {
-		if("5ecret".equals(password)) {
+		if(env.getProperty("admin.password", "").equals(password)) {
 			log.info("Start clean of database");
 			em.createQuery("DELETE FROM GameParticipation gp").executeUpdate();
 			em.createQuery("DELETE FROM GameEvent ge").executeUpdate();
@@ -615,7 +619,7 @@ public class RegistrationDAOBean implements RegistrationDAO {
 	
 	@Override
 	public void reseedInitData(String password) {
-		if("5ecret".equals(password)) {
+		if(env.getProperty("admin.password", "").equals(password)) {
 			statStartup.createInitData();
 		} else {
 			log.error("Incorrect password");

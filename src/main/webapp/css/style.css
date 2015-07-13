@@ -44,3 +44,7 @@
 .ng-table th {
     text-align: left;
 }
+
+.form-search {
+    height:36px !important;
+}

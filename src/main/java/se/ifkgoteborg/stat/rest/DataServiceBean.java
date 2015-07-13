@@ -225,12 +225,12 @@ public class DataServiceBean {
     public List<PlayedWithPlayerDTO> getPlayersPlayerPlayedWith(@PathVariable Long id) {
         List<PlayedWithPlayerDTO> list = new ArrayList<PlayedWithPlayerDTO>();
         Query q = em.createNativeQuery("SELECT distinct(p1.name) as name, p1.id, COUNT(pg1.game_id) as cnt, MIN(g1.dateOfGame) as firstGame, MAX(g1.dateOfGame) as lastGame " +
-                "FROM PLAYER_GAME pg1 " +
-                "INNER JOIN PLAYER p1 ON p1.id=pg1.player_id " +
-                "INNER JOIN GAME g1 ON g1.id=pg1.game_id " +
+                "FROM player_game pg1 " +
+                "INNER JOIN player p1 ON p1.id=pg1.player_id " +
+                "INNER JOIN game g1 ON g1.id=pg1.game_id " +
                 "WHERE p1.id <> :id AND pg1.game_id IN " +
-                "(SELECT pg.game_id FROM GAME g " +
-                "INNER JOIN PLAYER_GAME pg ON pg.game_id=g.id " +
+                "(SELECT pg.game_id FROM game g " +
+                "INNER JOIN player_game pg ON pg.game_id=g.id " +
                 "WHERE pg.player_id = :id) " +
                 "GROUP BY name ORDER BY cnt DESC")
                 .setParameter("id", id);
