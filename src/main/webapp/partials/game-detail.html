@@ -6,44 +6,44 @@
 
             <tbody>
             <div class="row-fluid">
-                <div class="span2 text-info">Motståndare:</div>
-                <div class="span2">{{g.homeTeam.name == 'IFK Göteborg' ? g.awayTeam.name : g.homeTeam.name}}</div>
+                <div class="col-md-2 text-info">Motståndare:</div>
+                <div class="col-md-10">{{g.homeTeam.name == 'IFK Göteborg' ? g.awayTeam.name : g.homeTeam.name}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Resultat:</div>
-                <div class="span2">{{g.homeGoals}}-{{g.awayGoals}}</div>
+                <div class="col-md-2 text-info">Resultat:</div>
+                <div class="col-md-10">{{g.homeGoals}}-{{g.awayGoals}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Halvtidsresultat:</div>
-                <div class="span2">{{g.homeGoalsHalftime}}-{{g.awayGoalsHalftime}}</div>
+                <div class="col-md-2 text-info">Halvtidsresultat:</div>
+                <div class="col-md-10">{{g.homeGoalsHalftime}}-{{g.awayGoalsHalftime}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Matchtyp:</div>
-                <div class="span2">{{g.tournamentSeason.tournament.name}}</div>
+                <div class="col-md-2 text-info">Matchtyp:</div>
+                <div class="col-md-10">{{g.tournamentSeason.tournament.name}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Säsong:</div>
-                <div class="span2">{{g.tournamentSeason.start}}</div>
+                <div class="col-md-2 text-info">Säsong:</div>
+                <div class="col-md-10">{{g.tournamentSeason.start}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Hemma/Borta:</div>
-                <div class="span2">{{g.homeTeam.name == 'IFK Göteborg' ? 'Hemmamatch' : 'Bortamatch'}}</div>
+                <div class="col-md-2 text-info">Hemma/Borta:</div>
+                <div class="col-md-10">{{g.homeTeam.name == 'IFK Göteborg' ? 'Hemmamatch' : 'Bortamatch'}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Datum:</div>
-                <div class="span2">{{g.dateOfGame}}</div>
+                <div class="col-md-2 text-info">Datum:</div>
+                <div class="col-md-10">{{g.dateOfGame}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Arena:</div>
-                <div class="span2">{{g.ground.name}} {{g.ground.city != null ? ', '+g.ground.city : ''}}</div>
+                <div class="col-md-2 text-info">Arena:</div>
+                <div class="col-md-10">{{g.ground.name}} {{g.ground.city != null ? ', '+g.ground.city : ''}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Publiksiffra:</div>
-                <div class="span2">{{g.attendance}}</div>
+                <div class="col-md-2 text-info">Publiksiffra:</div>
+                <div class="col-md-10">{{g.attendance}}</div>
             </div>
             <div class="row-fluid">
-                <div class="span2 text-info">Domare</div>
-                <div class="span2">{{g.referee != null ? g.referee.name : 'I.u.'}}</div>
+                <div class="col-md-2 text-info">Domare</div>
+                <div class="col-md-10">{{g.referee != null ? g.referee.name : 'I.u.'}}</div>
             </div>
             </tbody>
         </table>

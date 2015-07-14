@@ -27,6 +27,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -34,6 +36,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import se.ifkgoteborg.stat.filter.CsrfHeaderFilter;
@@ -104,7 +107,6 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
 
-
     @Configuration
     @EnableWebMvcSecurity
     @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -117,10 +119,21 @@ public class Application extends WebMvcConfigurerAdapter {
         @Autowired
         private DataSource dataSource;
 
+        @Bean
+        public AuthenticationSuccessHandler successHandler() {
+            SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+            handler.setUseReferer(true);
+            return handler;
+        }
+
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.httpBasic().and()      //
-
+            http.httpBasic().and()
+//                    .authorizeRequests()
+//                    .antMatchers("/rest/view/**")
+//                    .hasRole("USER")
+//                    .and()
                     .authorizeRequests()
                     .antMatchers("/rest/admin/**")
                     .hasRole("ADMIN")
@@ -129,7 +142,7 @@ public class Application extends WebMvcConfigurerAdapter {
                     .antMatchers("/rest/superadmin/**")
                     .hasRole("SUPERADMIN")
                     .and() //.csrf().disable();
-                    .formLogin().loginPage("/#/login").permitAll()
+                    .formLogin().loginPage("/#/login").successHandler(successHandler()).permitAll()
                     .and()
                     .logout().logoutSuccessUrl("/#/login?logout").permitAll()
                     .and()
@@ -160,29 +173,32 @@ public class Application extends WebMvcConfigurerAdapter {
         public void configure(AuthenticationManagerBuilder auth) throws Exception {
 //            auth.inMemoryAuthentication().withUser("admin").password("admin")
 //                    .roles("ADMIN", "USER").and().withUser("user").password("user")
-//                    .roles("USER").and().withUser("superadmin").password("superadmin")
+//                    .roles("ADMIN", "USER").and().withUser("superadmin").password("superadmin")
 //                    .roles("SUPERADMIN", "ADMIN", "USER");
+
 
             JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
             userDetailsService.setDataSource(dataSource);
             PasswordEncoder encoder = new BCryptPasswordEncoder();
 
             auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-            auth.jdbcAuthentication().dataSource(dataSource);
+            auth.jdbcAuthentication().dataSource(dataSource)
+                    .usersByUsernameQuery("select username as principal, password as credentials, true from ifkstat.users where username = ?")
+                    .authoritiesByUsernameQuery("select username as principal, authority as role from ifkstat.authorities where username = ?");
 
             if(!userDetailsService.userExists("user")) {
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                authorities.add(new SimpleGrantedAuthority("ADMIN"));
-                authorities.add(new SimpleGrantedAuthority("USER"));
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 User userDetails = new User("user", encoder.encode("user"), authorities);
 
                 userDetailsService.createUser(userDetails);
             }
             if(!userDetailsService.userExists("superadmin")) {
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                authorities.add(new SimpleGrantedAuthority("SUPERADMIN"));
-                authorities.add(new SimpleGrantedAuthority("ADMIN"));
-                authorities.add(new SimpleGrantedAuthority("USER"));
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 User userDetails = new User("superadmin", encoder.encode("superadmin"), authorities);
 
                 userDetailsService.createUser(userDetails);

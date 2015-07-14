@@ -24,7 +24,7 @@ public class Player {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private Country nationality;
 	private Integer length;
 	private Integer weight;

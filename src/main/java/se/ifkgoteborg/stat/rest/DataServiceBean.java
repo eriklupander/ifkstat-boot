@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 import se.ifkgoteborg.stat.rest.model.PlayerGamesPerTournamentSeasonDTO;
 import se.ifkgoteborg.stat.model.*;
 import se.ifkgoteborg.stat.rest.model.*;
@@ -14,6 +15,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 /**
  * Created with IntelliJ IDEA.
@@ -172,6 +175,13 @@ public class DataServiceBean {
     @RequestMapping(value = "/tournaments", method=RequestMethod.GET, produces = JSON)
     public List<Tournament> getTournaments() {
         return em.createQuery("select t from Tournament t").getResultList();
+    }
+
+    @RequestMapping(value = "/tournaments/{id}", method=RequestMethod.GET, produces = JSON)
+    public List<Tournament> getTournament(@PathVariable Long id) {
+        return em.createQuery("select t from Tournament t WHERE t.id = :id")
+                .setParameter("id", id)
+                .getResultList();
     }
 
     @RequestMapping(value = "/grounds", method=RequestMethod.GET, produces = JSON)

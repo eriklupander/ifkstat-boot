@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import se.ifkgoteborg.stat.model.*;
 
 import javax.persistence.EntityManager;
@@ -23,27 +21,43 @@ public class AdminDataServiceBean {
     @Autowired
     Environment env;
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/players/{id}", produces = "application/json", consumes = "application/json")
+    @Transactional
+    public ResponseEntity<Player> savePlayer(@PathVariable Long id, @RequestBody Player player) {
+        Player dbPlayer = em.find(Player.class, id);
+        if (dbPlayer != null) {
+            mergePlayer(player, dbPlayer);
+
+            return new ResponseEntity<Player>(em.merge(dbPlayer), HttpStatus.OK);
+        }
+        return new  ResponseEntity<Player>(player, HttpStatus.NOT_FOUND);
+    }
+
+    private void mergePlayer(Player player, Player dbPlayer) {
+        dbPlayer.setBiography(player.getBiography());
+        dbPlayer.setDateOfBirth(player.getDateOfBirth());
+        dbPlayer.setLength(player.getLength());
+        dbPlayer.setWeight(player.getWeight());
+        dbPlayer.setMotherClub(player.getMotherClub());
+        dbPlayer.setPlayedForClubs(player.getPlayedForClubs());
+        dbPlayer.setName(player.getName());
+        dbPlayer.setSquadNumber(player.getSquadNumber());
+
+        if(player.getPositionType() != null) {
+            PositionType pt = em.find(PositionType.class, player.getPositionType().getId());
+            dbPlayer.setPositionType(pt);
+        }
+
+        if(player.getNationality() != null) {
+            Country c = em.find(Country.class, player.getNationality().getId());
+            dbPlayer.setNationality(c);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/player", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<Player> savePlayer(Player player) {
 		Player dbPlayer = em.find(Player.class, player.getId());
-		dbPlayer.setBiography(player.getBiography());
-		dbPlayer.setDateOfBirth(player.getDateOfBirth());
-		dbPlayer.setLength(player.getLength());
-		dbPlayer.setWeight(player.getWeight());
-		dbPlayer.setMotherClub(player.getMotherClub());
-		dbPlayer.setPlayedForClubs(player.getPlayedForClubs());
-		dbPlayer.setName(player.getName());
-		dbPlayer.setSquadNumber(player.getSquadNumber());
-		
-		if(player.getPositionType() != null) {
-			PositionType pt = em.find(PositionType.class, player.getPositionType().getId());
-			dbPlayer.setPositionType(pt);
-		}
-		
-		if(player.getNationality() != null) {
-			Country c = em.find(Country.class, player.getNationality().getId());
-			dbPlayer.setNationality(c);
-		}
+        mergePlayer(player, dbPlayer);
 
         return new ResponseEntity<Player>(em.merge(dbPlayer), HttpStatus.OK);
 	}

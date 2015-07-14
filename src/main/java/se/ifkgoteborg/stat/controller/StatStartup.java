@@ -12,7 +12,10 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Repository
 public class StatStartup {
@@ -60,16 +63,14 @@ public class StatStartup {
 
     @Transactional
 	public void createInitData() {
-		Locale[] locales = Locale.getAvailableLocales();
-	    for (Locale locale : locales) {
-	     // String iso = locale.getISO3Country();
-	      String code = locale.getCountry();
-	      String name = locale.getDisplayCountry();
-	      if(name.trim().length() > 0) {
-	    	  em.merge(new Country(code, name));
-	      }	
-	      
-	    }
+
+        // Some Java 8 functional style stuff to create Country instances, unique country names only.
+        Arrays.asList(Locale.getAvailableLocales()).stream()
+                .filter(locale -> locale.getDisplayName().trim().length() > 0)
+                .map(locale -> new Country(locale.getCountry(), locale.getDisplayCountry()))
+                .distinct()
+                .forEach(country -> em.merge(country));
+
 	    em.flush();
 
 		Country sweden = (Country) em.createQuery("select c from Country c WHERE c.code='SE'").getSingleResult();

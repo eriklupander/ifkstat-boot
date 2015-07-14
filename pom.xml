@@ -83,6 +83,7 @@
     </dependencies>
 
     <properties>
+        <java.version>1.8</java.version>
         <start-class>se.ifkgoteborg.stat.Application</start-class>
     </properties>
 

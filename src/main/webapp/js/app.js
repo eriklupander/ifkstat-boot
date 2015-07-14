@@ -6,8 +6,8 @@ var ifkstatApp = angular.module('ifkstatApp', [
     'ngTable',
     'ifkstatControllers'
 ]);
-ifkstatApp.config(['$routeProvider',
-    function($routeProvider) {
+ifkstatApp.config(['$routeProvider', '$httpProvider',
+    function($routeProvider, $httpProvider) {
         $routeProvider.
             when('/players', {
                 templateUrl: 'partials/player-list.html',
@@ -18,6 +18,10 @@ ifkstatApp.config(['$routeProvider',
                 controller: 'PlayerDetailCtrl'
             }).
             when('/players/:id/tournaments/:tournamentId/games', {
+                templateUrl: 'partials/games-list.html',
+                controller: 'GamesListCtrl'
+            }).
+            when('/players/:id/tournaments/:tournamentId/games/:scoredGoal', {
                 templateUrl: 'partials/games-list.html',
                 controller: 'GamesListCtrl'
             }).
@@ -55,4 +59,7 @@ ifkstatApp.config(['$routeProvider',
             otherwise({
                 redirectTo: '/players'
             });
+
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $httpProvider.defaults.withCredentials = true;
     }]);

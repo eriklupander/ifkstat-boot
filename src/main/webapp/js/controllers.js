@@ -86,6 +86,21 @@ ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, 
             });
     };
 
+    $http({method: 'GET', url: '/rest/view/countries'}).
+        success(function(data, status, headers, config) {
+            $rootScope.countries = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting countries:"  + status);
+        });
+
+    $http({method: 'GET', url: '/rest/view/positiontypes'}).
+        success(function(data, status, headers, config) {
+            $rootScope.positiontypes = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting positiontypes:"  + status);
+        });
 });
 
 ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
@@ -168,9 +183,20 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
         $scope.tournamentId = $routeParams.tournamentId;
         $scope.clubId = $routeParams.clubId;
         $scope.tournamentSeasonId = $routeParams.tournamentSeasonId;
+        $scope.scoredGoal = $routeParams.scoredGoal;
 
         if($scope.playerId && $scope.tournamentId) {
-            var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games';
+
+            if(!$scope.scoredGoal) {
+                var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games';
+            } else {
+                var myUrl = '/rest/view/players/' + $scope.playerId + '/tournaments/' + $scope.tournamentId + '/games/goals';
+            }
+            $http({method: 'GET', url: '/rest/view/tournaments/' + $scope.tournamentId}).
+                success(function(data, status, headers, config) {
+                    $scope.tournamentName = data[0].name;
+                });
+
         } else if($scope.clubId) {
             var myUrl = '/rest/view/clubs/' + $scope.clubId + '/games';
             $http({method: 'GET', url: '/rest/view/clubs/' + $scope.clubId}).
@@ -297,7 +323,16 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
         };
         $scope.update = function(p) {
             console.log(p.name);
+
             $scope.toggleEdit();
+            $http.put('/rest/admin/players/' + $scope.playerId, p).
+                success(function(data, status, headers, config) {
+                    console.log("Save OK");
+                    $scope.p = data; // Update the client-side model with the returned object.
+                }).
+                error(function(data, status, headers, config) {
+                    alert("Error:"  + data);
+                });
         }
 	
 		$scope.playerId = $routeParams.id;
