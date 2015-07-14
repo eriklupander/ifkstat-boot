@@ -1,0 +1,5 @@
+http://54.171.12.68/rest/superadmin/initdata
+http://54.171.12.68/rest/superadmin/games
+
+DROP DATABASE ifkstat;
+CREATE DATABASE ifkstat CHARACTER SET = 'UTF8';
