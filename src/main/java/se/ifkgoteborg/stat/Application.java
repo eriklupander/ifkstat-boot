@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,18 +32,13 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import se.ifkgoteborg.stat.filter.CsrfHeaderFilter;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -51,6 +46,7 @@ import java.util.Properties;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
+// @EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -59,6 +55,20 @@ public class Application extends WebMvcConfigurerAdapter {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+//    @Bean
+//    public CacheManager getEhCacheManager(){
+//        EhCacheCacheManager cm = new EhCacheCacheManager();
+//        cm.setCacheManager(getEhCacheFactory().getObject());
+//        return cm;
+//    }
+//    @Bean
+//    public EhCacheManagerFactoryBean getEhCacheFactory(){
+//        EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+//        factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+//        factoryBean.setShared(true);
+//        return factoryBean;
+//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

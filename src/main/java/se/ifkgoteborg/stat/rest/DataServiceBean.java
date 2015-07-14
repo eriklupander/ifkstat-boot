@@ -1,5 +1,6 @@
 package se.ifkgoteborg.stat.rest;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -703,9 +704,32 @@ public class DataServiceBean {
         return em.createQuery("select p from Player p ORDER BY p.name").getResultList();
     }
 
+    // KLUDGE: Ugliest cache ever. Replace (of course) with proper @Cachable or other cache.
+    private List<Game> cachedGames;
+    private int hitCount = 0;
+
+    /**
+     * The "get all games" may be rather long-running when fetching and aggregating on the DB-side of things. Use
+     * non-blocking DeferredResult and CompletableFutures to minimize blocking.
+     *
+     * @return
+     */
     @RequestMapping(value = "/games", method=RequestMethod.GET, produces = JSON)
-    public List<Game> getGames() {
-        return em.createQuery("select g from Game g ORDER BY g.dateOfGame DESC").getResultList();
+    @Cacheable(value = "gamecache")
+    public DeferredResult<List<Game>> getGames() {
+        DeferredResult<List<Game>> deferredResult = new DeferredResult<>();
+        CompletableFuture.supplyAsync( () -> {
+            hitCount++;
+            if (hitCount % 10 == 0) cachedGames = null;
+            hitCount = 0;
+            if (cachedGames == null) {
+                cachedGames =  em.createQuery("select g from Game g ORDER BY g.dateOfGame DESC").getResultList();
+            }
+            return cachedGames;
+        })
+        .thenAcceptAsync(list -> deferredResult.setResult(list));
+
+        return deferredResult;
     }
 
     @RequestMapping(value = "/players/summaries", method=RequestMethod.GET, produces = JSON)
@@ -817,7 +841,17 @@ public class DataServiceBean {
     }
 
     @RequestMapping(value = "/clubs/stats", method=RequestMethod.GET, produces = JSON)
-    public List<ClubStatDTO> getAllClubStatistics() {
+    public DeferredResult<List<ClubStatDTO>> getAllClubStatistics() {
+        DeferredResult<List<ClubStatDTO>> deferredResult = new DeferredResult<>();
+
+        CompletableFuture
+                .supplyAsync( () -> getAndBuildClubStats())
+                .thenAcceptAsync(list -> deferredResult.setResult(list));
+
+        return deferredResult;
+    }
+
+    private List<ClubStatDTO> getAndBuildClubStats() {
         List<Object[]> rows = em.createNativeQuery(statSql).
                 setParameter("defaultClubId", defaultClub()).
                 getResultList();

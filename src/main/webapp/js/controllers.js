@@ -106,26 +106,52 @@ ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, 
 ifkstatControllers.controller('ClubsListCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
     function($scope, $http, $routeParams, $filter, ngTableParams) {
 
-        $http({method: 'GET', url: '/rest/view/clubs/stats'}).
-            success(function(data, status, headers, config) {
-                $scope.clubsList = new ngTableParams({
-                    page: 1,
-                    count: 25,
-                    sorting: {
-                        clubName: 'asc'     // initial sorting
-                    }
-                }, {
-                    total: data.length, // length of data
-                    getData: function($defer, params) {
-                        var orderedData = params.sorting() ?
-                            $filter('orderBy')(data, params.orderBy()) :
-                            data;
-                        var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-                        params.total(data.length);
-                        $defer.resolve(sliced);
-                    }
+        $scope.handle = null;
+
+        $scope.searchTerm = '';
+        $scope.clubSearch = function() {
+            if ($scope.searchTerm.length > 0) {
+                if ($scope.handle != null) {
+                    clearTimeout($scope.handle);
+                }
+                $scope.handle = setTimeout(execClubSearch, 500);
+            } else {
+                execClubSearch();
+            }
+        }
+
+
+        var execClubSearch = function() {
+            $scope.handle = null;
+            $http({method: 'GET', url: '/rest/view/clubs/stats'}).
+                success(function(data, status, headers, config) {
+                    $scope.clubsList = new ngTableParams({
+                        page: 1,
+                        count: 25,
+                        filter: {
+                            clubName: $scope.searchTerm
+                        },
+                        sorting: {
+                            clubName: 'asc'     // initial sorting
+                        }
+                    }, {
+                        total: data.length, // length of data
+                        getData: function($defer, params) {
+                            var filteredData = params.filter() ?
+                                $filter('filter')(data, params.filter()) :
+                                data;
+                            var orderedData = params.sorting() ?
+                                $filter('orderBy')(filteredData, params.orderBy()) :
+                                filteredData;
+                            var sliced = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                            params.total(data.length);
+                            $defer.resolve(sliced);
+                        }
+                    });
                 });
-            });
+
+        };
+        execClubSearch();
     }]
 );
 
@@ -137,7 +163,10 @@ ifkstatControllers.controller('TournamentsListCtrl', ['$scope', '$http', '$route
             success(function(data, status, headers, config) {
                 $scope.tournamentsParams = new ngTableParams({
                     page: 1,
-                    count: 25
+                    count: 25,
+                    sorting : {
+                        'name' : 'asc'
+                    }
                 }, {
                     total: data.length, // length of data
                     getData: function($defer, params) {

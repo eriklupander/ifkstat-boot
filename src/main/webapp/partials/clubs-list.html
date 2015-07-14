@@ -1,3 +1,5 @@
+<label for="clubSearch">Sök klubb</label>
+<input id="clubSearch" type="text" ng-model="searchTerm" value="" ng-keyup="clubSearch()">
 <table ng-table="clubsList" template-header="sample_ng_header" template-pagination="custom/pager" class="table table-striped">
 
     <tbody>
