@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import se.ifkgoteborg.stat.controller.StatStartup;
 import se.ifkgoteborg.stat.model.*;
 import se.ifkgoteborg.stat.rest.model.SquadPlayer;
@@ -482,7 +481,7 @@ public class RegistrationDAOBean implements RegistrationDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Player> getAllPlayersShallow() {
-		return em.createQuery("select p from Player p ORDER BY p.name").getResultList();
+		return em.createQuery("select p from Player p ORDER BY p.name", Player.class).getResultList();
 		//return em.createNamedQuery("allPlayers").getResultList();
 	}
 
@@ -652,7 +651,7 @@ public class RegistrationDAOBean implements RegistrationDAO {
 				.setParameter("playerId", playerId)
 				.getResultList();
 		
-		if(resultList.size() > 0) {
+		if (resultList.size() > 0) {
 			return resultList.get(0);
 		} else {
 			return null;

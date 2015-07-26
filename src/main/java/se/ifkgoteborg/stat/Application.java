@@ -46,7 +46,6 @@ import java.util.Properties;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableTransactionManagement
-// @EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -55,20 +54,6 @@ public class Application extends WebMvcConfigurerAdapter {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-//    @Bean
-//    public CacheManager getEhCacheManager(){
-//        EhCacheCacheManager cm = new EhCacheCacheManager();
-//        cm.setCacheManager(getEhCacheFactory().getObject());
-//        return cm;
-//    }
-//    @Bean
-//    public EhCacheManagerFactoryBean getEhCacheFactory(){
-//        EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
-//        factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
-//        factoryBean.setShared(true);
-//        return factoryBean;
-//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -140,10 +125,6 @@ public class Application extends WebMvcConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.httpBasic().and()
-//                    .authorizeRequests()
-//                    .antMatchers("/rest/view/**")
-//                    .hasRole("USER")
-//                    .and()
                     .authorizeRequests()
                     .antMatchers("/rest/admin/**")
                     .hasRole("ADMIN")
@@ -151,26 +132,13 @@ public class Application extends WebMvcConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers("/rest/superadmin/**")
                     .hasRole("SUPERADMIN")
-                    .and() //.csrf().disable();
+                    .and()
                     .formLogin().loginPage("/#/login").successHandler(successHandler()).permitAll()
                     .and()
                     .logout().logoutSuccessUrl("/#/login?logout").permitAll()
                     .and()
                     .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
                     .csrf().csrfTokenRepository(csrfTokenRepository());
-
-             // .anyRequest().authenticated()
-//            http
-//                    .authorizeRequests().anyRequest().authenticated();
-
-//            http
-//                    .formLogin().failureUrl("/login?error")
-//                    .defaultSuccessUrl("/")
-//                    .loginPage("/login")
-//                    .permitAll()
-//                    .and()
-//                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
-//                    .permitAll();
         }
 
         private CsrfTokenRepository csrfTokenRepository() {
@@ -215,14 +183,4 @@ public class Application extends WebMvcConfigurerAdapter {
             }
         }
     }
-
-//    @Bean(initMethod = "start", name = "esServer", destroyMethod = "stop")
-//    public ElasticSearchServer esServer() {
-//        Map<String,String> configuration = new HashMap<>();
-//        configuration.put("location","classpath:elasticsearch-server.properties");
-//        configuration.put("localOverride", "true");
-//      //  configuration.put("path.conf", "${webapp.root}/WEB-INF/config");
-//        return new ElasticSearchServer(configuration);
-//    }
-
 }

@@ -28,6 +28,12 @@ public class Ground {
 	
 	@Temporal(TemporalType.DATE)
 	private Date dateOfConstruction;
+
+	public Ground() {}
+	public Ground(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 		
 	public Long getId() {
 		return id;

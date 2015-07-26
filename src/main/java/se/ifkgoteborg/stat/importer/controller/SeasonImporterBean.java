@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAttribute;
 import se.ifkgoteborg.stat.dao.RegistrationDAO;
 import se.ifkgoteborg.stat.importer.controller.pojo.GameImporter;
 import se.ifkgoteborg.stat.importer.controller.pojo.PlayerImporter;
