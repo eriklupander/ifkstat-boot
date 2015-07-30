@@ -4,10 +4,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import se.ifkgoteborg.stat.controller.GroundDataAvgDto;
 import se.ifkgoteborg.stat.controller.GroundDataDto;
+import se.ifkgoteborg.stat.controller.PlayerDataDto;
 import se.ifkgoteborg.stat.controller.TriviaBean;
-import se.ifkgoteborg.stat.model.Club;
-import se.ifkgoteborg.stat.model.Game;
-import se.ifkgoteborg.stat.model.Ground;
+import se.ifkgoteborg.stat.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,10 +27,18 @@ public class TriviaBeanTest {
     Ground g3 = new Ground(3L, "Arena 3");
 
     Club ejIFK = new Club();
+    List<Player> players = new ArrayList<>();
 
     @BeforeMethod
     public void init() {
         ejIFK.setName("FC OtherTeam");
+        players.clear();
+        for(int a = 0; a < 100; a++) {
+            Player p1 = new Player();
+            p1.setId((long)a);
+            p1.setName("Player " + a);
+            players.add(p1);
+        }
     }
 
     @Test
@@ -56,6 +63,13 @@ public class TriviaBeanTest {
         assertEquals(result.get(0).getSize().intValue(), 200);
     }
 
+    @Test
+    public void testFindPlayersClosestToNGames() {
+        List<PlayerDataDto> result = testee.findPlayersClosestToNGames(allGames(), 50);
+        assertEquals(result.size(), 11);
+    }
+
+
     private List<Game> allGames() {
         List<Game> games = new ArrayList<>();
 
@@ -65,6 +79,7 @@ public class TriviaBeanTest {
             g.setHomeGoals(0);
             g.setHomeTeam(ejIFK);
             g.setGround(g1);
+            g.setGameParticipation(buildGP(g, 0));
             games.add(g);
         }
 
@@ -75,6 +90,7 @@ public class TriviaBeanTest {
 
             g.setHomeTeam(ejIFK);
             g.setGround(g2);
+            g.setGameParticipation(buildGP(g, 1));
             games.add(g);
         }
 
@@ -85,10 +101,22 @@ public class TriviaBeanTest {
             g.setGround(g3);
 
             g.setHomeTeam(ejIFK);
+            g.setGameParticipation(buildGP(g, 2));
             games.add(g);
         }
         Collections.shuffle(games);
         return games;
+    }
+
+    private List<GameParticipation> buildGP(Game g, int offset) {
+        List<GameParticipation> gpList = new ArrayList<>();
+        for(int a = (offset*11); a < (offset*11)+11; a++) {
+            GameParticipation gp = new GameParticipation();
+            gp.setGame(g);
+            gp.setPlayer(players.get(a));
+            gpList.add(gp);
+        }
+        return gpList;
     }
 
 }

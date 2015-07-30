@@ -13,7 +13,7 @@ import java.security.Principal;
  * Time: 00:35
  * To change this template use File | Settings | File Templates.
  */
-@SpringBootApplication
+// @SpringBootApplication
 @RestController
 public class UiApplication {
 

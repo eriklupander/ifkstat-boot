@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public interface Trivia {
 
-    List<Player> findPlayersClosestToNGames(int games);
-    List<Player> findPlayersClosestToNGoals(int goals);
+    List<PlayerDataDto> findPlayersClosestToNGames(List<Game> resultList, int size);
+    List<PlayerDataDto> findPlayersClosestToNGoals(List<Game> resultList, int goals);
 
     List<Player> findPlayerStartingAtPosForNthTime(PositionType positionType, int games);
 
