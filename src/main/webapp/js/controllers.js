@@ -2,6 +2,58 @@
 
 var ifkstatControllers = angular.module('ifkstatControllers', []);
 
+
+ifkstatControllers.controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
+
+    $scope.bulkData = "";
+
+    $scope.bulkUpload = function(data) {
+        var req = {
+            method: 'POST',
+            url: '/rest/superadmin/games',
+            headers: {
+                'Content-Type': 'text/plain',
+                'Accepts' : 'text/plain'
+            },
+            data: data
+        }
+        $http(req).
+            success(function(data, status, headers, config) {
+                console.log("Bulk upload OK");
+                $scope.uploadSuccessful = true;
+            }).
+            error(function(data, status, headers, config) {
+                alert("Error:"  + data);
+                $scope.uploadSuccessful = false;
+            });
+    }
+
+
+    $scope.init = function() {
+        var req = {
+            method: 'POST',
+            url: '/rest/superadmin/init',
+            headers: {
+                'Content-Type': 'text/plain',
+                'Accepts' : 'text/plain'
+            },
+            data: {  }
+        }
+        $http(req).
+            success(function(data, status, headers, config) {
+                console.log("INIT OK");
+                $scope.initSuccessful = true;
+            }).
+            error(function(data, status, headers, config) {
+                alert("Error:"  + data);
+                $scope.initSuccessful = false;
+            });
+    }
+
+
+}]);
+
+
 ifkstatControllers.controller('PlayerListCtrl', ['$scope', '$http','$filter', 'ngTableParams', function($scope, $http, $filter, ngTableParams) {
 
     $http({method: 'GET', url: '/rest/view/players/summaries'}).
@@ -351,7 +403,6 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
             $scope.edit = !$scope.edit;
         };
         $scope.update = function(p) {
-            console.log(p.name);
 
             $scope.toggleEdit();
             $http.put('/rest/admin/players/' + $scope.playerId, p).

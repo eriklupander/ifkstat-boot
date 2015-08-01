@@ -2,13 +2,12 @@ package se.ifkgoteborg.stat.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
 import se.ifkgoteborg.stat.model.*;
+import se.ifkgoteborg.stat.model.enums.ParticipationType;
 
 /**
  * Uses functional-style collection processing to extract stuff from lists of games and/or players.
@@ -51,8 +50,19 @@ public class TriviaBean implements Trivia {
     }
 
     @Override
-    public List<Player> findPlayerStartingAtPosForNthTime(PositionType positionType, int games) {
-        return null;
+    public List<PlayerDataDto> findPlayerStartingAtPosForNthTime(List<Game> resultList, PositionType positionType, int games) {
+        Map<Player, List<GameParticipation>> collect = resultList.stream()
+                .flatMap(game -> game.getGameParticipation().stream()
+                    .filter(gp -> gp.getFormationPosition().getPosition().getPositionType().equals(positionType) &&
+                                  gp.getParticipationType() == ParticipationType.STARTER)
+                )
+                .collect(Collectors.groupingBy(gp -> gp.getPlayer()));
+
+        return collect.entrySet().stream()
+                .filter(entry -> entry.getValue().size() < games)
+                .sorted((e1, e2) -> new Integer(e2.getValue().size()).compareTo(e1.getValue().size()))
+                .map(entry -> new PlayerDataDto(entry.getKey(), entry.getValue().size()))
+                .collect(Collectors.toList());
     }
 
     @Override

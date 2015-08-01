@@ -25,7 +25,7 @@ public class StatStartup {
     @PersistenceContext
 	EntityManager em;	
 	
-	//@PostConstruct
+	// @PostConstruct   DOES NOT WORK WITH TX IN SPRING!!
     @Transactional
 	public void init() {
 		
@@ -46,17 +46,17 @@ public class StatStartup {
 			return;
 	
 		// Bootstrap user
-		User user = new User();
-		user.setUsername("admin");
-		// TODO change this once we go live!!!
-		user.setPasswd("ISMvKXpXpadDiUoOSoAfww==");
-		
-		user = em.merge(user);
-		
-		Userrole userrole = new Userrole();
-		userrole.setUsername("admin");
-		userrole.setUserRoles("admin");
-		userrole = em.merge(userrole);
+//		User user = new User();
+//		user.setUsername("admin");
+//		// TODO change this once we go live!!!
+//		user.setPasswd("ISMvKXpXpadDiUoOSoAfww==");
+//
+//		user = em.merge(user);
+//
+//		Userrole userrole = new Userrole();
+//		userrole.setUsername("admin");
+//		userrole.setUserRoles("admin");
+//		userrole = em.merge(userrole);
 		
 		 createInitData();
 	}

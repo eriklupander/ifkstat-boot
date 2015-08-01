@@ -23,13 +23,16 @@ import se.ifkgoteborg.stat.util.StringUtil;
 
 public class XlsTransformer {
 
-	private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20130816.txt";
+	// "c:\\data_output.txt"
+	private static final String OUTPUT_FILE = "/Users/eriklupander/privat/ifkstat-boot/data/master-20130816.txt";
+	//private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20130816.txt";
 	//private static final String OUTPUT_FILE = "c:\\tankesmedja\\ifkstat\\ifkstat\\data\\master.txt";
 
 	//public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
-    public static final String ROOT_FOLDER = "c:\\projects\\ifk";
+    //public static final String ROOT_FOLDER = "c:\\projects\\ifk";
 	//public static final String ROOT_FOLDER = "C:\\Users\\Erik\\Dropbox\\Statistik till webben";
-	
+	public static final String ROOT_FOLDER = "/Users/eriklupander/privat/ifk-data";
+
 	private static final String GOAL_TOKEN = "•";
 	private static final String N = "IFK statistik";
 	private static final int PLAYERS_STARTINDEX = 8;
@@ -418,6 +421,6 @@ public class XlsTransformer {
 	}
 
 	public static void main(String[] args) {
-		new XlsTransformer().parseXlsToText("c:\\data_output.txt");
+		new XlsTransformer().parseXlsToText(OUTPUT_FILE);
 	}
 }

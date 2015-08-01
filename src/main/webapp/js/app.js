@@ -9,6 +9,10 @@ var ifkstatApp = angular.module('ifkstatApp', [
 ifkstatApp.config(['$routeProvider', '$httpProvider',
     function($routeProvider, $httpProvider) {
         $routeProvider.
+            when('/admin', {
+                templateUrl: 'partials/admin.html',
+                controller: 'AdminCtrl'
+            }).
             when('/players', {
                 templateUrl: 'partials/player-list.html',
                 controller: 'PlayerListCtrl'

@@ -2,12 +2,14 @@ package se.ifkgoteborg.stat.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import se.ifkgoteborg.stat.controller.StatStartup;
 import se.ifkgoteborg.stat.dao.RegistrationDAO;
 import se.ifkgoteborg.stat.importer.controller.MasterImporter;
 import se.ifkgoteborg.stat.importer.controller.NotesImporter;
@@ -35,6 +37,9 @@ public class SuperAdminDataServiceBean {
     @Autowired
 	NotesImporter notesImporter;
 
+    @Autowired
+    StatStartup statStartup;
+
     @RequestMapping(method = RequestMethod.POST, value = "/user", produces = "application/json", consumes = "application/json")
     @Transactional
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -58,8 +63,13 @@ public class SuperAdminDataServiceBean {
 		
 	}
 
+    @RequestMapping(method = RequestMethod.POST, value = "/init", produces = MediaType.TEXT_PLAIN_VALUE,  consumes = MediaType.TEXT_PLAIN_VALUE)
+    @Transactional
+    public void execInitData() {
+        statStartup.init();
+    }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/games", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/games", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.TEXT_PLAIN_VALUE)
     @Transactional
     public void bulkUploadGameData(@RequestBody String data) {
 		masterImporter.importMasterFile(data);

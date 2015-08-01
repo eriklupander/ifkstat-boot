@@ -15,8 +15,7 @@ public interface Trivia {
 
     List<PlayerDataDto> findPlayersClosestToNGames(List<Game> resultList, int size);
     List<PlayerDataDto> findPlayersClosestToNGoals(List<Game> resultList, int goals);
-
-    List<Player> findPlayerStartingAtPosForNthTime(PositionType positionType, int games);
+    List<PlayerDataDto> findPlayerStartingAtPosForNthTime(List<Game> resultList, PositionType positionType, int games);
 
     List<GroundDataDto> findGroundsWithMostGamesPlayed(List<Game> allGames);
     List<GroundDataAvgDto> findGroundsWithHighestAveragePoints(List<Game> allGames);
