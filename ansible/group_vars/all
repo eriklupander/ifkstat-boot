@@ -11,6 +11,9 @@ profiles: demo
 # Configuration repository
 environment_name: "test"
 
+config_name: ifkstat-konfiguration
+config_folder: "{{ ifkstat_root }}/ifkstat-konfiguration"
+
 # Application resources
 # Note: end with slash, in order to copy only files inside the source folder, not the folder itself
 app_resources_src: "{{ playbook_dir }}/../src/main/resources/"
