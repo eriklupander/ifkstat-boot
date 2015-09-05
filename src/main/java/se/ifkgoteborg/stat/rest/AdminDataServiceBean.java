@@ -83,56 +83,55 @@ public class AdminDataServiceBean {
 		return new ResponseEntity<GameStatistics>(em.merge(dbGs), HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/game/{gameId}", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<Game> saveGameDetails(@PathVariable Long id, Game game) {
-		Game db = em.find(Game.class, id);
+	@RequestMapping(method = RequestMethod.PUT, value = "/games/{gameId}", produces = "application/json", consumes = "application/json")
+	@Transactional
+    public ResponseEntity<Game> saveGameDetails(@PathVariable Long gameId, @RequestBody Game game) {
+		Game db = em.find(Game.class, gameId);
 		if(game.getAttendance() != null) {
 			db.setAttendance(game.getAttendance());
 		}
-		if(game.getAwayGoals() != null) {
-			db.setAwayGoals(game.getAwayGoals());
-		}
-		
-		if(game.getAwayGoalsHalftime() != null) {
-			db.setAwayGoalsHalftime(game.getAwayGoalsHalftime());
-		}
+//		if(game.getAwayGoals() != null) {
+//			db.setAwayGoals(game.getAwayGoals());
+//		}
+//
+//		if(game.getAwayGoalsHalftime() != null) {
+//			db.setAwayGoalsHalftime(game.getAwayGoalsHalftime());
+//		}
 		
 		if(game.getGameSummary() != null) {
 			db.setGameSummary(game.getGameSummary());
 		}
 		
-		if(game.getHomeGoals() != null) {
-			db.setHomeGoals(game.getHomeGoals());
-		}
-		
-		if(game.getHomeGoalsHalftime() != null) {
-			db.setHomeGoalsHalftime(game.getHomeGoalsHalftime());
-		}
+//		if(game.getHomeGoals() != null) {
+//			db.setHomeGoals(game.getHomeGoals());
+//		}
+//
+//		if(game.getHomeGoalsHalftime() != null) {
+//			db.setHomeGoalsHalftime(game.getHomeGoalsHalftime());
+//		}
 		
 		// Entities...
 		if(game.getGround() != null) {
 			if(game.getGround().getId() != null) {
 				Ground ground = em.find(Ground.class, game.getGround().getId());
-				
-				if(ground != null) {
-					// If same name
-					if(game.getGround().getName().equals(ground.getName())) {
-						db.setGround(ground);
-					} else {
-						ground = new Ground();
-						ground.setName(game.getGround().getName());
-						ground = em.merge(ground);
-						db.setGround(ground);
-					}
-					
-				}
+                db.setGround(ground);
+//				if(ground != null) {
+//					// If same name
+//					if(game.getGround().getName().equals(ground.getName())) {
+//						db.setGround(ground);
+//					} else {
+//						ground = new Ground();
+//						ground.setName(game.getGround().getName());
+//						ground = em.merge(ground);
+//						db.setGround(ground);
+//					}
+//				}
 			} else {
 				Ground Ground = new Ground();
 				Ground.setName(game.getGround().getName());
 				Ground = em.merge(Ground);
 				db.setGround(Ground);
 			}
-			
 		}
 		
 		if(game.getReferee() != null) {
@@ -159,6 +158,6 @@ public class AdminDataServiceBean {
 			}
 			
 		}
-        return new ResponseEntity<Game>(em.merge(db), HttpStatus.OK);
+        return new ResponseEntity<>(em.merge(db), HttpStatus.OK);
 	}
 }

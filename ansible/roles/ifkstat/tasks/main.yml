@@ -1,0 +1,36 @@
+---
+# file: roles/ifkstat/tasks/main.yml
+
+- name: stop tomcat
+  service: name={{ tomcat_service }} state=stopped pattern=org.apache.catalina.startup.Bootstrap
+
+- name: create release directory
+  file: path={{ releases_folder }} state=directory
+
+- name: Copy war application directly to target env.
+  copy: src=/target/ifkstat-boot-1.0-SNAPSHOT.war dest={{ releases_folder }} owner=ifkstatadmin group=ifkstatadmin mode=0644
+
+#- name: remove old version of unpacked ROOT war
+#  file: state=absent
+#      path={{ webapps_folder }}/ROOT
+
+#- name: remove old version of ROOT war
+#  file: state=absent
+#      path={{ webapps_folder }}/ROOT.war
+
+#- name: Deploy ifkstat-web-{{ version }}.war as ROOT.war
+#  command: cp {{ releases_folder }}/ifkstat-web-{{ version }}.war {{ webapps_folder }}/ROOT.war
+
+#- name: Create version file
+#  template: src=version.txt.j2 dest={{ webapps_folder }}/version.txt
+
+#- name: pull configuration repo to get new branches
+#  command: chdir={{ config_folder }} git pull origin
+#
+#- name: update configuration to {{ config_version }}
+#  git: repo={{ config_repository }}
+#       dest={{ config_folder }}
+#       version={{ config_version }}
+
+#- name: start tomcat
+#  service: name={{ tomcat_service }} state=started pattern=org.apache.catalina.startup.Bootstrap

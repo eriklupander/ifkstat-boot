@@ -1,0 +1,11 @@
+---
+# This playbook provisions Tomcat resources for ifkstat
+
+#- hosts: ifkstat-tomcat
+#  sudo: yes
+
+#  roles:
+#    - ifkstat-systemvariabler
+#    - ifkstat-resurser
+#    - ifkstat-jarfiler
+#    - config-folder

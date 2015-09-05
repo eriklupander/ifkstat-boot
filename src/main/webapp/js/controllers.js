@@ -116,6 +116,7 @@ ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, 
 
     authenticate();
     $scope.credentials = {};
+
     $scope.login = function() {
         authenticate($scope.credentials, function() {
             if ($rootScope.authenticated) {
@@ -128,6 +129,18 @@ ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, 
         });
     };
 
+    $scope.userCreated = false;
+    $scope.account = {};
+    $scope.createUser = function() {
+        $http.post('/rest/superadmin/user', $scope.account).success(function() {
+            $scope.userCreated = true;
+            $location.path("/admin/createUser.html");
+        }).error(function(data) {
+                $scope.userCreated = false;
+                $location.path("/admin/createUser.html");
+            });
+    };
+
     $scope.logout = function() {
         $http.post('logout', {}).success(function() {
             $rootScope.authenticated = false;
@@ -137,6 +150,22 @@ ifkstatControllers.controller('navigation', function($rootScope, $scope, $http, 
                 $location.path("/");
             });
     };
+
+    $http({method: 'GET', url: '/rest/view/grounds'}).
+        success(function(data, status, headers, config) {
+            $rootScope.grounds = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting grounds:"  + status);
+        });
+
+    $http({method: 'GET', url: '/rest/view/referees'}).
+        success(function(data, status, headers, config) {
+            $rootScope.referees = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error getting referees:"  + status);
+        });
 
     $http({method: 'GET', url: '/rest/view/countries'}).
         success(function(data, status, headers, config) {
@@ -330,6 +359,25 @@ ifkstatControllers.controller('GamesListCtrl', ['$scope', '$http', '$routeParams
 ifkstatControllers.controller('GameDetailCtrl', ['$scope', '$http', '$routeParams', '$filter', 'ngTableParams',
     function($scope, $http, $routeParams, $filter, ngTableParams) {
         $scope.gameId = $routeParams.id;
+        $scope.edit = false;
+        $scope.toggleEdit = function() {
+            $scope.edit = !$scope.edit;
+        };
+
+        $scope.update = function(g) {
+            console.log(g.name);
+
+            $scope.toggleEdit();
+            $http.put('/rest/admin/games/' + $scope.gameId, g).
+                success(function(data, status, headers, config) {
+                    console.log("Save of game OK");
+                    $scope.g = data; // Update the client-side model with the returned object.
+                }).
+                error(function(data, status, headers, config) {
+                    alert("Error saving game:"  + data);
+                });
+        }
+
         $http({method: 'GET', url: '/rest/view/games/' + $scope.gameId}).
             success(function(data, status, headers, config) {
                 $scope.g = data;
@@ -413,7 +461,7 @@ ifkstatControllers.controller('PlayerDetailCtrl', ['$scope', '$http', '$routePar
                 error(function(data, status, headers, config) {
                     alert("Error:"  + data);
                 });
-        }
+        };
 	
 		$scope.playerId = $routeParams.id;
 		$http({method: 'GET', url: '/rest/view/players/' + $scope.playerId}).

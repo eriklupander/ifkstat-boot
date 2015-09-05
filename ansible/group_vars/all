@@ -1,0 +1,62 @@
+---
+# file: group_vars/all
+
+# General
+ifkstat_root: /opt/ifkstat
+releases_folder: "{{ ifkstat_root }}/releases"
+
+# Spring profiles
+profiles: demo
+
+# Configuration repository
+environment_name: "test"
+
+# Application resources
+# Note: end with slash, in order to copy only files inside the source folder, not the folder itself
+app_resources_src: "{{ playbook_dir }}/../src/main/resources/"
+app_resources_folder: "{{ ifkstat_root }}/ifkstat-resources"
+
+# Tomcat installation
+tomcat_conf: "{{ ifkstat_root }}/tomcat7/conf"
+tomcat_bin: "{{ ifkstat_root }}/tomcat7/bin"
+tomcat_lib: "{{ ifkstat_root }}/tomcat7/lib"
+tomcat_service: ifkstat-tomcat
+ifkstat_tomcat_folder: "/var/lib/{{ tomcat_service }}"
+webapps_folder: "{{ ifkstat_tomcat_folder }}/webapps"
+
+# Database configuration
+database_server: localhost
+database_port: 3306
+database_name: ifkstat
+database_username: ifkstat
+database_password: ifkstat
+database_driver: com.mysql.jdbc.Driver
+database_url: "jdbc:mysql://{{ database_server }}:{{ database_port }}/{{ database_name }}?useCompression=true"
+database_pool_maxActive: 20
+database_pool_maxIdle: 20
+database_pool_minIdle: 10
+database_pool_initialSize: 10
+
+archive_dir: "{{ ifkstat_root }}/archives"
+
+# Java
+java_home: "{{ ifkstat_root }}/jre"
+java_version: 7u71-b14
+jre_tarball: jre-7u71-linux-x64.tar.gz
+
+# Tomcat
+#tomcat7_version: 7.0.57
+#tomcat7_home: "{{ ifkstat_root }}/tomcat7"
+#tomcat7_bin: "{{ tomcat7_home }}/bin"
+#tomcat_user: ifkstat-tomcat
+#tomcat_group: ifkstat-tomcat
+#admin_username: admin
+#admin_password: admin
+#tomcat_service: ifkstat-tomcat
+#ifkstat_tomcat_folder: "/var/lib/{{ tomcat_service }}"
+#proxy_name: "localhost"
+
+# Apache
+certificate_file: "{{ ifkstat_root }}/certs/self-signed.crt"
+certificate_key_file: "{{ ifkstat_root }}/certs/self-signed.key"
+proxy_pass: "http://127.0.0.1:8181/"

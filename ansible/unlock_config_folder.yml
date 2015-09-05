@@ -1,0 +1,8 @@
+---
+# This playbook unlocks the config repo folder
+
+- hosts: ifkstat-tomcat
+  sudo: yes 
+  
+  roles:
+    - unlock-config-folder

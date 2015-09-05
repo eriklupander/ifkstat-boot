@@ -1,0 +1,15 @@
+---
+# file: roles/ifkstat-systemvariabler/tasks/main.yml
+
+- name: Create ifkstat-env.sh file
+  template: src=ifkstat-env.sh.j2 dest="{{ ifkstat_tomcat_folder }}/ifkstat-env.sh" mode=755
+
+- name: configure setenv.sh
+  lineinfile:
+    dest="{{ tomcat_bin }}/setenv.sh"
+    create=yes
+    mode=755
+    regexp="ifkstat-env\.sh"
+    insertafter="EOF"
+    line=". \"{{ ifkstat_tomcat_folder }}/ifkstat-env.sh\""
+    

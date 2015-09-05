@@ -59,6 +59,9 @@ ifkstatApp.config(['$routeProvider', '$httpProvider',
             }).when('/login', {
                 templateUrl : 'login.html',
                 controller : 'navigation'
+            }).when('/createUser', {
+                templateUrl : 'admin/createuser.html',
+                controller : 'navigation'
             }).
             otherwise({
                 redirectTo: '/players'

@@ -130,7 +130,7 @@ public class Application extends WebMvcConfigurerAdapter {
                     .hasRole("ADMIN")
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/rest/superadmin/**")
+                    .antMatchers("/rest/superadmin/**", "/admin/**", "/#/createUser")
                     .hasRole("SUPERADMIN")
                     .and()
                     .formLogin().loginPage("/#/login").successHandler(successHandler()).permitAll()
