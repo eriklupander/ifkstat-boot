@@ -3,6 +3,14 @@
 
 - hosts: ifkstat-mysql
   sudo: yes 
+  vars_files:
+    - vars/mysql.yml
+  roles:
+    - mysql-rpm-repo
+    - { role: geerlingguy.mysql }
+
+- hosts: ifkstat-mysql
+  sudo: yes 
 
   roles:
     - ifkstat-mysql
