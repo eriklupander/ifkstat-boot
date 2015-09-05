@@ -4,11 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +15,11 @@ import se.ifkgoteborg.stat.importer.controller.MasterImporter;
 import se.ifkgoteborg.stat.importer.controller.NotesImporter;
 import se.ifkgoteborg.stat.model.User;
 import se.ifkgoteborg.stat.model.Userrole;
-import se.ifkgoteborg.stat.model.sec.JdbcUser;
 import se.ifkgoteborg.stat.util.PasswordUtil;
 import se.ifkgoteborg.stat.util.StringUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/rest/superadmin")
@@ -49,29 +40,13 @@ public class SuperAdminDataServiceBean {
     @Autowired
     StatStartup statStartup;
 
-    // For creating a user. Should move to a DAO
-    @Autowired
-    private DataSource dataSource;
-
     @RequestMapping(method = RequestMethod.POST, value = "/user", produces = "application/json", consumes = "application/json")
     @Transactional
     public ResponseEntity<User> createUser(@RequestBody User user) {
 		validateUser(user);
-
-        JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
-        userDetailsService.setDataSource(dataSource);
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        if(!userDetailsService.userExists(user.getUsername())) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), encoder.encode(user.getPassword()), authorities);
-
-            userDetailsService.createUser(userDetails);
-        }
-		user.setPassword(hashPassword(user.getPassword()));
-
+		user.setPasswd(hashPassword(user.getPasswd()));
+		user.setFirstName(StringUtil.capitalize(user.getFirstName()));
+		user.setLastName(StringUtil.capitalize(user.getLastName()));
 		
 		Userrole ur = new Userrole();
 		ur.setUsername(user.getUsername());
@@ -94,7 +69,7 @@ public class SuperAdminDataServiceBean {
         statStartup.init();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/games", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/games", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.TEXT_PLAIN_VALUE)
     @Transactional
     public void bulkUploadGameData(@RequestBody String data) {
 		masterImporter.importMasterFile(data);
