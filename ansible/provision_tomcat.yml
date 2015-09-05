@@ -1,6 +1,14 @@
 ---
 # This playbook provisions Tomcat resources for ifkstat
 
+- hosts: ifkstat-tomcat
+  sudo: yes
+
+  roles:
+    - git
+    - oracle-jre8
+    - global-systemvariabler
+
 #- hosts: ifkstat-tomcat
 #  sudo: yes
 

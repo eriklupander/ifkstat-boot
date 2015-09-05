@@ -1,5 +1,5 @@
 ---
-# file: roles/oracle-jre7/tasks/main.yml
+# file: roles/oracle-jre8/tasks/main.yml
 
 - name: Create {{ ifkstat_root }} directory
   file: state=directory dest={{ ifkstat_root }} mode=755
@@ -12,7 +12,7 @@
 
 - name: Download java
   command: "creates={{ archive_dir }}/{{ jre_tarball }} \
-           curl http://download.oracle.com/otn-pub/java/jdk/{{ java_version }}/{{ jre_tarball }} -o {{ archive_dir }}/{{ jre_tarball }} -L -H 'Cookie: oraclelicense=accept-securebackup-cookie'"
+           curl http://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/{{ java_version }}/jre-8u60-linux-x64.tar.gz?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/{{ java_version }}/jre-8u60-linux-x64.tar.gz&BHost=javadl.sun.com&File=jre-8u60-linux-x64.tar.gz&AuthParam=1441485469_47200251893c874a8c0b04984dcc5fe2&ext=.gz -o {{ archive_dir }}/{{ jre_tarball }} -L -H 'Cookie: oraclelicense=accept-securebackup-cookie'"
 
 - name: Extract java
   command: creates={{ java_home }}/bin/java

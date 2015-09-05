@@ -1,8 +1,9 @@
 ---
 # file: roles/ifkstat/tasks/main.yml
 
-- name: stop tomcat
-  service: name={{ tomcat_service }} state=stopped pattern=org.apache.catalina.startup.Bootstrap
+# - name: stop tomcat
+#  service: name={{ tomcat_service }} state=stopped pattern=org.apache.catalina.startup.Bootstrap
+# TODO make sure we stop the spring boot app if running
 
 - name: create release directory
   file: path={{ releases_folder }} state=directory

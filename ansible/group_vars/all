@@ -41,8 +41,8 @@ archive_dir: "{{ ifkstat_root }}/archives"
 
 # Java
 java_home: "{{ ifkstat_root }}/jre"
-java_version: 7u71-b14
-jre_tarball: jre-7u71-linux-x64.tar.gz
+java_version: 8u60-b27
+jre_tarball: jre-8u60-linux-x64.tar.gz
 
 # Tomcat
 #tomcat7_version: 7.0.57
