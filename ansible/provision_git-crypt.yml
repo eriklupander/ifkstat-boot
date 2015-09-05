@@ -1,7 +1,7 @@
 ---
 # This playbook provisions git-crypt 
 
-- hosts: tomcat
+- hosts: ifkstat-tomcat
   sudo: yes 
   roles:
     - git-crypt
