@@ -9,11 +9,11 @@
     - oracle-jre8
     - global-systemvariabler
 
-#- hosts: ifkstat-tomcat
-#  sudo: yes
+- hosts: ifkstat-tomcat
+  sudo: yes
 
-#  roles:
-#    - ifkstat-systemvariabler
+  roles:
+    - ifkstat-systemvariabler
 #    - ifkstat-resurser
 #    - ifkstat-jarfiler
 #    - config-folder
