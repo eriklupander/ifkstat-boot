@@ -1,5 +1,14 @@
 ---
 # file: roles/ifkstat-mysql/tasks/main.yml
+
+- hosts: mysql
+  sudo: yes
+  vars_files:
+    - vars/mysql.yml
+  roles:
+    - mysql-rpm-repo
+    - { role: geerlingguy.mysql }
+
 - name: Drop any existing mysql database for 'test' environment
   mysql_db: name={{ database_name }} state=absent
   when: environment_name == "test"
