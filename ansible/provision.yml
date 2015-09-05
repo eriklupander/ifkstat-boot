@@ -3,4 +3,5 @@
 
 - include: provision_unzip.yml
 - include: provision_tomcat.yml
+- include: provision_apache.yml
 - include: provision_mysql.yml
