@@ -9,9 +9,9 @@
 #    - mysql-rpm-repo
 #    - { role: geerlingguy.mysql }
 
-- name: Drop any existing mysql database for 'test' environment
+- name: Drop any existing mysql database for 'demo' environment
   mysql_db: name={{ database_name }} state=absent
-  when: environment_name == "test"
+  when: environment_name == "demo"
 
 - name: Create mysql database
   mysql_db: name={{ database_name }} state=present
