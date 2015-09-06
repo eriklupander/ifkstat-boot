@@ -4,6 +4,7 @@
 # General
 ifkstat_root: /opt/ifkstat
 releases_folder: "{{ ifkstat_root }}/releases"
+logs_folder: "{{ ifkstat_root }}/logs"
 
 # Spring profiles
 profiles: demo

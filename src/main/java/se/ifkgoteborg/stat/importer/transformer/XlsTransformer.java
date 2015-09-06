@@ -24,14 +24,14 @@ import se.ifkgoteborg.stat.util.StringUtil;
 public class XlsTransformer {
 
 	// "c:\\data_output.txt"
-	private static final String OUTPUT_FILE = "/Users/eriklupander/privat/ifkstat-boot/data/master-20130816.txt";
-	//private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20130816.txt";
+	//private static final String OUTPUT_FILE = "/Users/eriklupander/privat/ifkstat-boot/data/master-20130816.txt";
+	private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20150906.txt";
 	//private static final String OUTPUT_FILE = "c:\\tankesmedja\\ifkstat\\ifkstat\\data\\master.txt";
 
-	//public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
+	public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
     //public static final String ROOT_FOLDER = "c:\\projects\\ifk";
 	//public static final String ROOT_FOLDER = "C:\\Users\\Erik\\Dropbox\\Statistik till webben";
-	public static final String ROOT_FOLDER = "/Users/eriklupander/privat/ifk-data";
+	//public static final String ROOT_FOLDER = "/Users/eriklupander/privat/ifk-data";
 
 	private static final String GOAL_TOKEN = "•";
 	private static final String N = "IFK statistik";
@@ -104,8 +104,8 @@ public class XlsTransformer {
 		
 		String season =  f.getName().replaceAll("[^\\d]", " ").trim();
 		int startYear = StringUtil.parseSeasonStringToStartYear(season);
-		if(startYear > 2013)
-			return;
+		//if(startYear > 2013)
+		//	return;
 		buf.append("$$$$" + season + "\n");
 		
 		InputStream inputStream = null;
