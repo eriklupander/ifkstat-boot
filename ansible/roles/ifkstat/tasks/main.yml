@@ -11,14 +11,18 @@
 - name: Copy war application directly to target env.
   copy: src=../../../../target/ifkstat-boot-1.0-SNAPSHOT.war dest={{ releases_folder }} owner=ubuntu group=ubuntu mode=0644
 
+- name: Add shell script for starting application
+  template: src=ifkstat-startup.sh.j2 dest={{ releases_folder }} mode=755
+
 - name: Create symlink for service installation
   file: state=link
-        src={{ releases_folder }}/ifkstat-boot-1.0-SNAPSHOT.war
+        src={{ releases_folder }}/ifkstat-startup.sh
         dest=/etc/init.d/ifkstat
 
-# pattern=org.apache.catalina.startup.Bootstrap
 - name: start ifkstat spring boot app
   service: name=ifkstat state=started
+
+
 
 #- name: remove old version of unpacked ROOT war
 #  file: state=absent
