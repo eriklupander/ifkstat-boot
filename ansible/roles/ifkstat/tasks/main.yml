@@ -9,7 +9,7 @@
   file: path={{ releases_folder }} state=directory
 
 - name: Copy war application directly to target env.
-  copy: src=../../../target/ifkstat-boot-1.0-SNAPSHOT.war dest={{ releases_folder }} owner=ubuntu group=ubuntu mode=0644
+  copy: src=../../../../target/ifkstat-boot-1.0-SNAPSHOT.war dest={{ releases_folder }} owner=ubuntu group=ubuntu mode=0644
 
 #- name: remove old version of unpacked ROOT war
 #  file: state=absent
