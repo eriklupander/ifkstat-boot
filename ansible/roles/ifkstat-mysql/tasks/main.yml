@@ -18,6 +18,3 @@
     
 - name: Create mysql user
   mysql_user: name={{ database_username }} password={{ database_username }} priv=*.*:ALL state=present
-
-- name: Create core tables
-  shell: mysql {{ database_name }} < usertables.sql
