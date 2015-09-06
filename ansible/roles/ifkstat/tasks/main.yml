@@ -16,12 +16,12 @@
         src={{ releases_folder }}/ifkstat-boot-1.0-SNAPSHOT.war
         dest=/etc/init.d/ifkstat
 
-- name: stop ifkstat spring boot app (no effect if already stopped)
-        service: name=ifkstat state=stopped
+- name: stop ifkstat spring boot app
+  service: name=ifkstat state=stopped
 
 # pattern=org.apache.catalina.startup.Bootstrap
 - name: start ifkstat spring boot app
-        service: name=ifkstat state=started
+  service: name=ifkstat state=started
 
 #- name: remove old version of unpacked ROOT war
 #  file: state=absent
