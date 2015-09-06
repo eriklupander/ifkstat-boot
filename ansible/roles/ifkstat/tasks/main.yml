@@ -14,8 +14,9 @@
 - name: Copy usertables db script to host
   copy: src=../../../../usertables.sql dest={{ releases_folder }} owner=ubuntu group=ubuntu mode=0644
 
-- name: Create core tables
+- name: Create core tables, ignore if this fails
   shell: mysql {{ database_name }} < {{ releases_folder }}/usertables.sql
+  ignore_errors: yes
 
 - name: Add shell script for starting application
   template: src=ifkstat-startup.sh.j2 dest={{ releases_folder }}/ifkstat-startup.sh mode=755
