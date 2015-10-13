@@ -4,8 +4,8 @@
 # Spring profiles
 profiles: demo
 
-# Tomcat
-proxy_name: "ec2-54-171-109-226.eu-west-1.compute.amazonaws.com"
+# Tomcat "ec2-54-171-109-226.eu-west-1.compute.amazonaws.com"
+proxy_name: statistik.ifkgoteborg.se
 
 # Apache
 proxy_pass: "http://127.0.0.1:8181/"
