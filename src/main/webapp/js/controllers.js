@@ -2,6 +2,9 @@
 
 var ifkstatControllers = angular.module('ifkstatControllers', []);
 
+ifkstatControllers.controller('AboutCtrl', ['$scope', '$http', function($scope, $http) {
+
+}]);
 
 ifkstatControllers.controller('AdminCtrl', ['$scope', '$http', function($scope, $http) {
 
