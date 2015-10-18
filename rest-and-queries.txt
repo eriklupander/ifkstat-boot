@@ -3,3 +3,16 @@ http://54.171.12.68/rest/superadmin/games
 
 DROP DATABASE ifkstat;
 CREATE DATABASE ifkstat CHARACTER SET = 'UTF8';
+
+
+SELECT g.id, g.dateOfGame, hc.name, ac.name,  COUNT(pg.id) as pgc FROM game g
+INNER JOIN player_game pg ON g.id=pg.game_id
+INNER JOIN club hc ON g.homeTeam_id = hc.id
+INNER JOIN club ac ON g.awayTeam_id = ac.id
+WHERE (pg.participationType = 'STARTER' OR pg.participationType = 'SUBSTITUTE_OUT')
+ GROUP BY g.id ORDER BY pgc
+
+
+ SELECT * from game g LEFT OUTER JOIN player_game pg ON pg.game_id=g.id WHERE g.id=1396
+
+ SELECT game_id, COUNT(pg.id) FROM player_game pg WHERE (pg.participationType = 'STARTER' OR pg.participationType = 'SUBSTITUTE_OUT') GROUP BY pg.game_id ORDER BY game_id

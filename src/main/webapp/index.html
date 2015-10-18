@@ -31,13 +31,14 @@
 <nav class="navbar navbar-default" role="navigation">
     <div ng-controller="navigation" class="navbar-header">
         <ul id="nav-ul" class="nav navbar-nav">
+            <li><img src="images/ifk-logo.png" height="50"></li>
             <li id="nav-players" onclick="updateNavBar(this);"><a class="navbar-brand active" href="/#/players">Spelare</a></li>
             <li id="nav-games" onclick="updateNavBar(this);"> <a class="navbar-brand" href="/#/games">Matcher</a></li>
             <li id="nav-clubs" onclick="updateNavBar(this);">  <a class="navbar-brand" href="/#/clubs/stats">Klubbar</a></li>
             <li id="nav-tournaments" onclick="updateNavBar(this);">  <a class="navbar-brand" href="/#/tournaments">Turneringar</a></li>
             <li ng-show="authenticated"><a class="navbar-brand" href="/#/admin">Admin</a></li>
             <li ng-show="!authenticated"><a href="#/login">Logga in</a></li>
-            <li ng-show="authenticated"><a href="" ng-click="logout()">Logga ut</a></li>
+            <li class="pull-right" ng-show="authenticated"><a class="pull-right" href="" ng-click="logout()">Logga ut</a></li>
         </ul>
     </div>
 </nav>
