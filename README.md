@@ -17,17 +17,24 @@ create table authorities (    username varchar(50) not null,    authority varcha
 * Login as superadmin. Click Admin tab. Click "Init core data"
 * To bulk import, copy the generated .txt file with game data into the textarea and press 'Bulk import'. Takes a few to many minutes.
 
+=======
+Automated provisioning
+
+# Provisionering av resurser för ifkstat
+> ansible-playbook -i hosts_demo provision.yml
+
+# Driftsättning av ifk
+> ansible-playbook -i hosts_demo deploy.yml
+
 
 
 TODO 2015-08-01
-* Check 2012 squad import, it breaks after Robin Söder. Probably due to two empty columns next to R.S
 * Add notes import to GUI
 * Add a tiny bit of styling to the admin GUI
 * Check if ROLE of user can be fetched OK and used in GUI - e.g. only show admin GUI for admin/superadmin
 * Many "clickables" left to do in tables.
 * Add REST endpoint for Trivia controllers. Note: Use in-memory cached data for trivia game data.
 
-TODO 2014-10-18
 * Add Spring Method caching. The data seldom changes, should be possible to optimize a lot of requests, especially those for
 "all" data.
 * Add a modal Ajax Loading Spinner

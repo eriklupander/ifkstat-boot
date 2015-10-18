@@ -1,6 +1,7 @@
 package se.ifkgoteborg.stat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -114,6 +115,15 @@ public class Application extends WebMvcConfigurerAdapter {
         @Autowired
         private DataSource dataSource;
 
+        @Value("${demo.password}")
+        private String demoPassword;
+
+        @Value("${superadmin.password}")
+        private String superadminPassword;
+
+        @Value("${user.password}")
+        private String userPassword;
+
         @Bean
         public AuthenticationSuccessHandler successHandler() {
             SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
@@ -125,6 +135,10 @@ public class Application extends WebMvcConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.httpBasic().and()
+                    .authorizeRequests()
+                    .antMatchers("/**")
+                    .hasRole("SUPERADMIN")
+                    .and()
                     .authorizeRequests()
                     .antMatchers("/rest/admin/**")
                     .hasRole("ADMIN")
@@ -168,7 +182,7 @@ public class Application extends WebMvcConfigurerAdapter {
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                User userDetails = new User("user", encoder.encode("user"), authorities);
+                User userDetails = new User("user", encoder.encode(userPassword), authorities);
 
                 userDetailsService.createUser(userDetails);
             }
@@ -177,7 +191,16 @@ public class Application extends WebMvcConfigurerAdapter {
                 authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                User userDetails = new User("superadmin", encoder.encode("superadmin"), authorities);
+                User userDetails = new User("superadmin", encoder.encode(superadminPassword), authorities);
+
+                userDetailsService.createUser(userDetails);
+            }
+            if(!userDetailsService.userExists("demo")) {
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                User userDetails = new User("demo", encoder.encode(demoPassword), authorities);
 
                 userDetailsService.createUser(userDetails);
             }
