@@ -11,8 +11,8 @@ Rewrite of the ifkstat backend using Spring Boot, Spring-based REST instead of j
 * Create schema 'ifkstat' with latin1 collation
 * Manually create DB tables for 'users' and 'authorities'. They are populated on first startup.
 
-create table users (    username varchar(50) not null primary key,    password varchar(255) not null,    enabled boolean not null) engine = InnoDb;
-create table authorities (    username varchar(50) not null,    authority varchar(50) not null,    foreign key (username) references users (username),    unique index authorities_idx_1 (username, authority))
+    create table users (    username varchar(50) not null primary key,    password varchar(255) not null,    enabled boolean not null) engine = InnoDb;
+    create table authorities (    username varchar(50) not null,    authority varchar(50) not null,    foreign key (username) references users (username),    unique index authorities_idx_1 (username, authority))
 
 * Login as superadmin. Click Admin tab. Click "Init core data"
 * To bulk import, copy the generated .txt file with game data into the textarea and press 'Bulk import'. Takes a few to many minutes.
