@@ -1,5 +1,13 @@
 package se.ifkgoteborg.stat.importer.transformer;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import se.ifkgoteborg.stat.util.StringUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,27 +19,19 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
-import se.ifkgoteborg.stat.util.StringUtil;
-
 
 public class XlsTransformer {
 
 	// "c:\\data_output.txt"
-	//private static final String OUTPUT_FILE = "/Users/eriklupander/privat/ifkstat-boot/data/master-20130816.txt";
-	private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20150906.txt";
+	private static final String OUTPUT_FILE = "/Users/eriklupander/privat/ifkstat-boot/data/master-20170312.txt";
+	//private static final String OUTPUT_FILE = "c:\\projects\\ifk\\master-20150906.txt";
 	//private static final String OUTPUT_FILE = "c:\\tankesmedja\\ifkstat\\ifkstat\\data\\master.txt";
 
-	public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
+	//public static final String ROOT_FOLDER = "H:\\Dropbox\\Statistik till webben";
     //public static final String ROOT_FOLDER = "c:\\projects\\ifk";
 	//public static final String ROOT_FOLDER = "C:\\Users\\Erik\\Dropbox\\Statistik till webben";
-	//public static final String ROOT_FOLDER = "/Users/eriklupander/privat/ifk-data";
+	public static final String ROOT_FOLDER = "/Users/eriklupander/privat/ifkstat-boot/data/";
+	//public static final String ROOT_FOLDER ="/Users/eriklupander/Dropbox/Statistik till webben"; ///År för år/"
 
 	private static final String GOAL_TOKEN = "•";
 	private static final String N = "IFK statistik";

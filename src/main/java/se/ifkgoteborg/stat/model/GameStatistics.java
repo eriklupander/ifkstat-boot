@@ -20,18 +20,18 @@ public class GameStatistics implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
-	private Integer shotsOnGoalHomeTeam = 0;
-	private Integer shotsOnGoalAwayTeam = 0;
-	private Integer shotsOffGoalHomeTeam = 0;
-	private Integer shotsOffGoalAwayTeam = 0;
-	private Integer offsidesHomeTeam = 0;
-	private Integer offsidesAwayTeam = 0;
-	private Integer cornersHomeTeam = 0;
-	private Integer cornersAwayTeam = 0;
-	private Integer freekicksHomeTeam = 0;
-	private Integer freekicksAwayTeam = 0;
-	private Integer throwinsHomeTeam = 0;
-	private Integer throwinsAwayTeam = 0;
+	private Integer shotsOnGoalHomeTeam = null;
+	private Integer shotsOnGoalAwayTeam = null;
+	private Integer shotsOffGoalHomeTeam = null;
+	private Integer shotsOffGoalAwayTeam = null;
+	private Integer offsidesHomeTeam = null;
+	private Integer offsidesAwayTeam = null;
+	private Integer cornersHomeTeam = null;
+	private Integer cornersAwayTeam = null;
+	private Integer freekicksHomeTeam = null;
+	private Integer freekicksAwayTeam = null;
+	private Integer throwinsHomeTeam = null;
+	private Integer throwinsAwayTeam = null;
 	private Integer possessionHomeTeam = 50;
 	private Integer possessionAwayTeam = 50;
 	

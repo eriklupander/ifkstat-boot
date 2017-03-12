@@ -1,23 +1,51 @@
 package se.ifkgoteborg.stat.rest;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import se.ifkgoteborg.stat.model.Club;
+import se.ifkgoteborg.stat.model.Game;
+import se.ifkgoteborg.stat.model.GameEvent;
+import se.ifkgoteborg.stat.model.GameNote;
+import se.ifkgoteborg.stat.model.GameParticipation;
+import se.ifkgoteborg.stat.model.Ground;
+import se.ifkgoteborg.stat.model.PlayedForClub;
+import se.ifkgoteborg.stat.model.Player;
+import se.ifkgoteborg.stat.model.PositionType;
+import se.ifkgoteborg.stat.model.Referee;
+import se.ifkgoteborg.stat.model.SquadSeason;
+import se.ifkgoteborg.stat.model.Tournament;
+import se.ifkgoteborg.stat.model.TournamentSeason;
+import se.ifkgoteborg.stat.rest.model.AveragesPerGameAndTournamentDTO;
+import se.ifkgoteborg.stat.rest.model.ClubDTO;
+import se.ifkgoteborg.stat.rest.model.ClubStatDTO;
+import se.ifkgoteborg.stat.rest.model.FullSquadSeasonDTO;
+import se.ifkgoteborg.stat.rest.model.GamePositionStatDTO;
+import se.ifkgoteborg.stat.rest.model.GoalsPerTournamentDTO;
+import se.ifkgoteborg.stat.rest.model.PlayedWithPlayerDTO;
 import se.ifkgoteborg.stat.rest.model.PlayerGamesPerTournamentSeasonDTO;
-import se.ifkgoteborg.stat.model.*;
-import se.ifkgoteborg.stat.rest.model.*;
+import se.ifkgoteborg.stat.rest.model.PlayerPositionStatsDTO;
+import se.ifkgoteborg.stat.rest.model.PlayerResultStatDTO;
+import se.ifkgoteborg.stat.rest.model.PlayerSeasonDTO;
+import se.ifkgoteborg.stat.rest.model.PlayerStatDTO;
+import se.ifkgoteborg.stat.rest.model.PlayerSummaryDTO;
+import se.ifkgoteborg.stat.rest.model.SquadSeasonDTO;
+import se.ifkgoteborg.stat.rest.model.TournamentSeasonDTO;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 /**
  * Created with IntelliJ IDEA.
@@ -715,22 +743,24 @@ public class DataServiceBean {
      * @return
      */
     @RequestMapping(value = "/games", method=RequestMethod.GET, produces = JSON)
-    @Cacheable(value = "gamecache")
     public DeferredResult<List<Game>> getGames() {
         DeferredResult<List<Game>> deferredResult = new DeferredResult<>();
-        CompletableFuture.supplyAsync( () -> {
-            hitCount++;
-            if (hitCount % 10 == 0) cachedGames = null;
-            hitCount = 0;
-            if (cachedGames == null) {
-                cachedGames =  em.createQuery("select g from Game g ORDER BY g.dateOfGame DESC").getResultList();
-            }
-            return cachedGames;
-        })
-        .thenAcceptAsync(list -> deferredResult.setResult(list));
+        CompletableFuture.supplyAsync(this::loadGames)
+        .thenAcceptAsync(deferredResult::setResult);
 
         return deferredResult;
     }
+
+    private List<Game> loadGames() {
+        hitCount++;
+        if (hitCount % 10 == 0) cachedGames = null;
+        hitCount = 0;
+        if (cachedGames == null) {
+            cachedGames =  em.createQuery("select g from Game g ORDER BY g.dateOfGame DESC").getResultList();
+        }
+        return cachedGames;
+    }
+
 
     @RequestMapping(value = "/players/summaries", method=RequestMethod.GET, produces = JSON)
     public Collection<PlayerSummaryDTO> getPlayerSummaries() {
